@@ -25,8 +25,7 @@ def calculate_chart(person: dict) -> dict:
     bodies = {}
 
     for name, pid in PLANETS:
-        res = swe.calc_ut(jd, pid, flags)
-        xx = res[0]
+        xx, _ = swe.calc_ut(jd, pid, flags)
         lon = norm360(xx[0])
         sign = sign_index(lon)
 
@@ -57,7 +56,7 @@ def calculate_chart(person: dict) -> dict:
     asc = norm360(ascmc[0])
     asc_sign = sign_index(asc)
 
-    # भावचलित: Placidus cusps
+    # भावचलित: Placidus cusps वेगळे ठेवले आहेत
     chal_result = swe.houses_ex(
         jd, latitude, longitude, b"P", swe.FLG_SIDEREAL
     )
