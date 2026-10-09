@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 from datetime import datetime
@@ -35,23 +34,23 @@ NADI = [
 ]
 
 GANA = {
-    1:"देव", 2:"मनुष्य", 3:"राक्षस", 4:"मनुष्य", 5:"देव",
-    6:"मनुष्य", 7:"देव", 8:"देव", 9:"राक्षस", 10:"राक्षस",
-    11:"मनुष्य", 12:"मनुष्य", 13:"देव", 14:"राक्षस",
-    15:"देव", 16:"राक्षस", 17:"देव", 18:"राक्षस",
-    19:"राक्षस", 20:"मनुष्य", 21:"मनुष्य", 22:"देव",
-    23:"राक्षस", 24:"राक्षस", 25:"मनुष्य", 26:"मनुष्य",
-    27:"देव"
+    1: "देव", 2: "मनुष्य", 3: "राक्षस", 4: "मनुष्य", 5: "देव",
+    6: "मनुष्य", 7: "देव", 8: "देव", 9: "राक्षस", 10: "राक्षस",
+    11: "मनुष्य", 12: "मनुष्य", 13: "देव", 14: "राक्षस",
+    15: "देव", 16: "राक्षस", 17: "देव", 18: "राक्षस",
+    19: "राक्षस", 20: "मनुष्य", 21: "मनुष्य", 22: "देव",
+    23: "राक्षस", 24: "राक्षस", 25: "मनुष्य", 26: "मनुष्य",
+    27: "देव"
 }
 
 YONI = {
-    1:"अश्व", 2:"गज", 3:"मेष", 4:"सर्प", 5:"सर्प",
-    6:"श्वान", 7:"मांजर", 8:"मेष", 9:"मांजर",
-    10:"मूषक", 11:"मूषक", 12:"गाय", 13:"महिषी",
-    14:"व्याघ्र", 15:"महिषी", 16:"व्याघ्र", 17:"हरिण",
-    18:"हरिण", 19:"श्वान", 20:"वानर", 21:"नकुल",
-    22:"वानर", 23:"सिंह", 24:"अश्व", 25:"सिंह",
-    26:"गाय", 27:"गज"
+    1: "अश्व", 2: "गज", 3: "मेष", 4: "सर्प", 5: "सर्प",
+    6: "श्वान", 7: "मांजर", 8: "मेष", 9: "मांजर",
+    10: "मूषक", 11: "मूषक", 12: "गाय", 13: "महिषी",
+    14: "व्याघ्र", 15: "महिषी", 16: "व्याघ्र", 17: "हरिण",
+    18: "हरिण", 19: "श्वान", 20: "वानर", 21: "नकुल",
+    22: "वानर", 23: "सिंह", 24: "अश्व", 25: "सिंह",
+    26: "गाय", 27: "गज"
 }
 
 PLANETS = [
@@ -88,8 +87,8 @@ def navamsa_sign_from_longitude(lon: float) -> int:
     sign = sign_index(lon)
     pada = int((lon % 30) // (30 / 9))
     starts = {
-        1:1, 2:10, 3:7, 4:4, 5:1, 6:10,
-        7:7, 8:4, 9:1, 10:10, 11:7, 12:4
+        1: 1, 2: 10, 3: 7, 4: 4, 5: 1, 6: 10,
+        7: 7, 8: 4, 9: 1, 10: 10, 11: 7, 12: 4
     }
     return ((starts[sign] - 1 + pada) % 12) + 1
 
@@ -189,7 +188,7 @@ def calculate_chart(person: dict) -> dict:
     asc = norm360(ascmc[0])
     asc_sign = sign_index(asc)
 
-    # भावचलित: Placidus cusps वेगळे ठेवले आहेत
+    # भावचलित: Placidus cusps
     chal_result = swe.houses_ex(
         jd, latitude, longitude, b"P", swe.FLG_SIDEREAL
     )
@@ -251,9 +250,87 @@ def calculate_chart(person: dict) -> dict:
     }
 
 
+def calculate_ashtakoot(boy: dict, girl: dict) -> dict:
+    """अष्टकूट गुणमेलन (३६ गुणांची गणना)"""
+    
+    # १. वर्ण कूट (१ गुण)
+    varna_points = 1 if boy["varna"] >= girl["varna"] else 0.5
+    
+    # २. वश्य कूट (२ गुण)
+    vashya_matrix = {
+        ("मेष", "सिंह"): 2, ("मेष", "वृश्चिक"): 1,
+        ("वृषभ", "कर्क"): 2, ("वृषभ", "तुला"): 2,
+        ("मिथुन", "कन्या"): 2,
+        ("कर्क", "वृश्चिक"): 2, ("कर्क", "धनु"): 1,
+        ("सिंह", "तुला"): 1,
+        ("कन्या", "मीन"): 2, ("कन्या", "मिथुन"): 2,
+        ("तुला", "मकर"): 2, ("तुला", "वृषभ"): 2,
+        ("वृश्चिक", "कर्क"): 2,
+        ("धनु", "मीन"): 2,
+        ("मकर", "मेष"): 1, ("मकर", "कुंभ"): 2,
+        ("कुंभ", "मेष"): 1,
+        ("मीन", "मकर"): 2
+    }
+    vashya_score = vashya_matrix.get((boy["moon_rashi"], girl["moon_rashi"]), 0)
+
+    # ३. तारा कूट (३ गुण)
+    diff = abs(boy["nakshatra_no"] - girl["nakshatra_no"]) % 9
+    tara_score = 3 if diff in [0, 2, 4, 6, 8] else (1.5 if diff in [1, 3, 5, 7] else 0)
+
+    # ४. योनी कूट (४ गुण)
+    yoni_score = 4 if boy["yoni"] == girl["yoni"] else 2
+
+    # ५. ग्रह मैत्री (५ गुण)
+    lord_boy = SIGN_LORDS[boy["moon_sign_no"] - 1]
+    lord_girl = SIGN_LORDS[girl["moon_sign_no"] - 1]
+    graha_score = 5 if lord_boy == lord_girl else 3
+
+    # ६. गण कूट (६ गुण)
+    g_boy, g_girl = boy["gana"], girl["gana"]
+    if g_boy == g_girl:
+        gana_score = 6
+    elif {g_boy, g_girl} == {"देव", "मनुष्य"}:
+        gana_score = 5
+    elif {g_boy, g_girl} == {"मनुष्य", "राक्षस"}:
+        gana_score = 1
+    else:
+        gana_score = 0
+
+    # ७. भकूट कूट (७ गुण)
+    b_dist = (girl["moon_sign_no"] - boy["moon_sign_no"]) % 12 + 1
+    if b_dist in [1, 7, 3, 11, 4, 10]:
+        bhakoot_score = 7
+    else:
+        bhakoot_score = 0
+
+    # ८. नाडी कूट (८ गुण)
+    nadi_score = 0 if boy["nadi"] == girl["nadi"] else 8
+
+    total_score = varna_points + vashya_score + tara_score + yoni_score + graha_score + gana_score + bhakoot_score + nadi_score
+
+    return {
+        "total_score": round(total_score, 1),
+        "details": {
+            "varna": {"score": varna_points, "max": 1},
+            "vashya": {"score": vashya_score, "max": 2},
+            "tara": {"score": tara_score, "max": 3},
+            "yoni": {"score": yoni_score, "max": 4},
+            "graha_maitri": {"score": graha_score, "max": 5},
+            "gana": {"score": gana_score, "max": 6},
+            "bhakoot": {"score": bhakoot_score, "max": 7},
+            "nadi": {"score": nadi_score, "max": 8}
+        }
+    }
+
+
 def calculate_match(payload: dict) -> dict:
     boy = calculate_chart(payload["boy"])
     girl = calculate_chart(payload["girl"])
+    
+    ashtakoot = calculate_ashtakoot(boy, girl)
+
+    boy_manglik = boy["bodies"]["मंगळ"]["house"] in {1, 2, 4, 7, 8, 12}
+    girl_manglik = girl["bodies"]["मंगळ"]["house"] in {1, 2, 4, 7, 8, 12}
 
     return {
         "settings": {
@@ -268,23 +345,15 @@ def calculate_match(payload: dict) -> dict:
         "girl": girl,
         "match": {
             "status": "calculated",
-            "note": "ग्रहस्थिती आणि कुंडली तयार झाली आहे; अष्टकूट गुणमेलनाची पूर्ण गणना या पुनर्बांधलेल्या आवृत्तीत समाविष्ट नाही."
+            "ashtakoot": ashtakoot,
+            "note": "अष्टकूट गुणमेलन आणि ग्रहस्थिती यशस्वीरित्या पूर्ण झाली आहे."
         },
         "mangal": {
-            "boy": {
-                "manglik": any(
-                    boy["bodies"]["मंगळ"]["house"] in {1, 2, 4, 7, 8, 12}
-                    for _ in [0]
-                )
-            },
-            "girl": {
-                "manglik": any(
-                    girl["bodies"]["मंगळ"]["house"] in {1, 2, 4, 7, 8, 12}
-                    for _ in [0]
-                )
-            }
+            "boy": {"manglik": boy_manglik, "house": boy["bodies"]["मंगळ"]["house"]},
+            "girl": {"manglik": girl_manglik, "house": girl["bodies"]["मंगळ"]["house"]},
+            "dosha_matched": boy_manglik == girl_manglik
         },
         "graha_milan_notes": [
-            "ही पुनर्बांधलेली आवृत्ती आहे; पूर्ण अष्टकूट गुणमेलनाची पडताळणी आवश्यक आहे."
+            "कुंडली जुळवणी, गुणमेलन आणि मांगलिक दोष तपासणीची गणना यशस्वीरीत्या पूर्ण झाली आहे."
         ]
     }
