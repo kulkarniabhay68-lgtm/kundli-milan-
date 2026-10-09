@@ -13,4 +13,7 @@ allow_headers=["*"],
 
 @app.get("/api/health")
 def health():
-return {"status": "ok", "message": "Kundli Milan API is running"}
+return {
+"status": "ok",
+"message": "Kundli Milan API is running"
+}
