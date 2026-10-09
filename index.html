@@ -1,0 +1,1403 @@
+<!doctype html><html lang="mr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>कुंडली मेलन</title><style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap');
+:root{--bg:#fffaf4;--card:#fff;--ink:#2b2430;--muted:#746b76;--brand:#7b315b;--brand2:#b66a3c;--gold:#d6a64b;--line:#eadcc7;--soft:#fff2df;--good:#1e7b54;--danger:#a74444;--shadow:0 18px 45px rgba(87,49,34,.10)}
+[data-theme=dark]{--bg:#17131a;--card:#211b24;--ink:#f4eee8;--muted:#b8aeb8;--brand:#e39abf;--brand2:#efb27b;--gold:#e0b75e;--line:#3d3340;--soft:#2b2227;--good:#70d4a4;--danger:#ef8c8c;--shadow:0 18px 45px rgba(0,0,0,.25)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#fff2d8 0,transparent 30%),var(--bg);color:var(--ink);font-family:'Noto Sans Devanagari',system-ui,sans-serif}.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav{max-width:1180px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between}.logo{font-weight:800;font-size:22px;color:var(--brand)}.tag{font-size:12px;color:var(--muted)}button{font:inherit;border:0;cursor:pointer}.theme{background:var(--soft);color:var(--ink);padding:9px 13px;border-radius:12px}.hero{max-width:1180px;margin:32px auto 18px;padding:28px 18px;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}.hero h1{font-size:clamp(32px,5vw,58px);line-height:1.08;margin:0 0 12px;color:var(--brand)}.hero p{font-size:17px;color:var(--muted);max-width:680px}.hero-card{background:linear-gradient(145deg,var(--soft),var(--card));border:1px solid var(--line);border-radius:28px;padding:25px;box-shadow:var(--shadow)}.om{font-size:70px;text-align:center;color:var(--gold)}.wrap{max-width:1180px;margin:auto;padding:0 18px 60px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}h2{margin:0 0 16px;color:var(--brand)}.person-title{display:flex;justify-content:space-between;align-items:center}.badge{padding:6px 10px;background:var(--soft);border-radius:999px;color:var(--brand);font-size:12px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{position:relative}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}.field input{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:13px;background:var(--bg);color:var(--ink);outline:none}.field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 20%,transparent)}.full{grid-column:1/-1}.searchrow{display:flex;gap:8px}.searchrow input{flex:1}.smallbtn{padding:10px 12px;border-radius:12px;background:var(--soft);color:var(--brand)}.suggest{position:absolute;left:0;right:0;top:76px;background:var(--card);border:1px solid var(--line);border-radius:14px;z-index:10;box-shadow:var(--shadow);overflow:hidden}.suggest button{display:block;width:100%;text-align:left;background:none;color:var(--ink);padding:11px 13px;border-bottom:1px solid var(--line)}.suggest button:hover{background:var(--soft)}.cta{margin:22px 0;background:linear-gradient(135deg,var(--brand),var(--brand2));color:white;padding:16px 24px;border-radius:16px;font-weight:800;font-size:17px;box-shadow:0 15px 30px rgba(123,49,91,.25);width:100%}.cta:disabled{opacity:.6}.status{min-height:24px;color:var(--muted);text-align:center}.report{display:none;margin-top:20px}.report.show{display:block}.score{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:center}.scorebox{border:1px solid var(--gold);border-radius:22px;padding:22px;text-align:center;background:var(--soft)}.scorebig{font-size:48px;font-weight:800;color:var(--brand)}.progress{height:10px;border-radius:20px;background:var(--line);overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--gold));border-radius:20px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted);font-size:13px}.charts{display:grid;grid-template-columns:1fr 1fr;gap:18px}.chart{border:1px solid var(--line);border-radius:18px;padding:12px;background:var(--soft)}.chart svg{width:100%;height:auto}.actions{display:flex;gap:10px;flex-wrap:wrap}.action{padding:12px 16px;border-radius:13px;background:var(--soft);color:var(--ink);font-weight:700}.action.primary{background:var(--brand);color:#fff}.note{font-size:12px;color:var(--muted);line-height:1.7}.footer{text-align:center;color:var(--muted);padding:30px 0}.toast{position:fixed;right:18px;bottom:18px;background:var(--ink);color:var(--bg);padding:13px 16px;border-radius:13px;display:none;z-index:50;max-width:360px}.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.5);border-top-color:white;border-radius:50%;animation:sp 1s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:850px){.hero{grid-template-columns:1fr}.grid,.charts,.score{grid-template-columns:1fr}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.nav{padding:10px 12px}.wrap{padding:0 12px 40px}.hero{padding:22px 12px}}
+@media print{.top,.hero,.formsection,.actions,.footer,.status{display:none!important}.report{display:block!important}.wrap{padding:0}.card{box-shadow:none}}
+
+.home{max-width:980px;margin:0 auto;padding:34px 18px 60px;min-height:calc(100vh - 80px)}
+.home-head{text-align:center;padding:28px 0 34px}
+.home-ganesh{font-size:38px;margin-bottom:8px}
+.home h1{font-size:clamp(34px,7vw,54px);margin:0;color:var(--ink)}
+.home-date{margin-top:10px;color:var(--muted);font-size:17px}
+.home-date span{color:var(--gold);font-weight:800}
+.home-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:720px;margin:0 auto}
+.home-option{border:1px solid var(--line);border-radius:28px;padding:28px 22px;min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;cursor:pointer;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s;border-top:4px solid var(--gold);background:var(--card);color:var(--ink)}
+.home-option:hover{transform:translateY(-3px);box-shadow:0 22px 50px rgba(0,0,0,.14)}
+.home-option .ico{font-size:52px;margin-bottom:14px}
+.home-option h2{margin:0 0 6px;font-size:23px}
+.home-option p{margin:0;color:var(--muted);font-size:14px}
+.home-note{max-width:720px;margin:22px auto 0;text-align:center;color:var(--muted);font-size:12px}
+.app-shell{display:none}
+.app-shell.active{display:block}
+.backhome{max-width:1180px;margin:12px auto 0;padding:0 18px}
+.backhome button{background:var(--soft);color:var(--ink);padding:9px 13px;border-radius:12px}
+@media(max-width:650px){.home-options{grid-template-columns:1fr}.home{padding-top:20px}.home-option{min-height:175px}}
+
+.km-theme-toggle{
+ position:fixed;right:18px;top:14px;z-index:99999;
+ display:flex;align-items:center;gap:7px;
+ height:40px;padding:0 13px!important;
+ border-radius:999px!important;
+ border:1px solid var(--line)!important;
+ background:var(--card)!important;color:var(--ink)!important;
+ box-shadow:0 4px 16px rgba(0,0,0,.10)!important;
+ font-size:14px!important;font-weight:600!important;cursor:pointer
+}
+.km-theme-toggle:hover{transform:translateY(-1px)}
+</style>
+<style id="km-v10-theme">
+:root{
+ --bg:#f7f7f8;--card:#ffffff;--ink:#202123;--muted:#6b6f76;
+ --line:#e5e5e7;--accent:#8b5e34;--accent2:#d6a85b;--soft:#f0f0f1;
+ --shadow:0 8px 30px rgba(0,0,0,.07)
+}
+html,body{background:var(--bg)!important;color:var(--ink)!important}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.top{background:rgba(255,255,255,.86)!important;border-bottom:1px solid var(--line)!important;backdrop-filter:blur(12px)}
+.card,.home-option{background:var(--card)!important;color:var(--ink)!important;border:1px solid var(--line)!important;box-shadow:var(--shadow)!important}
+button{border-radius:12px!important}
+input,select,textarea{background:var(--card)!important;color:var(--ink)!important;border:1px solid var(--line)!important;border-radius:10px!important}
+.home{max-width:900px!important;padding-top:60px!important}
+.home-head{padding-bottom:42px!important}
+.home-ganesh{font-size:30px!important;opacity:.8}
+.home h1{font-weight:650!important;letter-spacing:-1px}
+.home-date{font-size:14px!important}
+.home-options{max-width:700px!important;gap:16px!important}
+.home-option{min-height:190px!important;border-top:0!important}
+.home-option .ico{font-size:42px!important}
+.home-option h2{font-weight:600!important}
+.km-theme-one:hover{transform:translateY(-1px)}
+.home{padding-top:48px!important}
+.home-head{padding-bottom:34px!important}
+.home h1{font-size:clamp(32px,6vw,48px)!important;font-weight:650!important}
+.home-options{gap:18px!important}
+.home-option{min-height:200px!important}
+.home-option:hover{transform:translateY(-2px)!important}
+body.km-dark{
+ --bg:#202123;--card:#2b2c2f;--ink:#f2f2f2;--muted:#b7b8bb;--line:#444549;--soft:#343539;
+ --accent:#d6a85b;--accent2:#e4c27f;--shadow:0 10px 32px rgba(0,0,0,.28)
+}
+body.km-dark .top{background:rgba(32,33,35,.88)!important}
+body.km-dark input,body.km-dark select,body.km-dark textarea{background:#2b2c2f!important}
+body.km-dark .home-option:hover{box-shadow:0 20px 45px rgba(0,0,0,.3)!important}
+@media(max-width:650px){
+ .km-theme-toggle{right:10px;top:10px}
+ .home{padding:34px 16px 50px!important}
+ .home-options{grid-template-columns:1fr!important}
+}
+</style>
+<style id="km-v13-final">
+#kmThemeToggle{
+ position:fixed!important;top:14px!important;right:16px!important;
+ z-index:2147483647!important;
+ width:auto!important;min-width:78px!important;height:38px!important;
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ gap:6px!important;padding:0 11px!important;margin:0!important;
+ border:1px solid #d9d9dc!important;border-radius:999px!important;
+ background:#fff!important;color:#202123!important;
+ box-shadow:0 3px 14px rgba(0,0,0,.10)!important;
+ font:600 13px/1 system-ui,-apple-system,"Segoe UI",sans-serif!important;
+ cursor:pointer!important;transform:none!important;
+}
+#kmThemeToggle:hover{transform:translateY(-1px)!important}
+#kmThemeIcon{font-size:16px!important;line-height:1!important}
+#kmThemeLabel{font-size:13px!important;white-space:nowrap!important}
+body.km-dark #kmThemeToggle{
+ background:#2b2c2f!important;color:#f2f2f2!important;border-color:#4a4b4f!important;
+ box-shadow:0 3px 16px rgba(0,0,0,.28)!important;
+}
+@media(max-width:650px){
+ #kmThemeToggle{top:10px!important;right:10px!important;min-width:72px!important;height:36px!important;padding:0 9px!important}
+}
+</style>
+<style id="km-v15-night">
+/* Night mode: softer charcoal, warm white text, muted accent — no bright magenta */
+body.km-dark{
+  --bg:#17181a!important;
+  --card:#232427!important;
+  --ink:#f1eee8!important;
+  --muted:#b8b7b3!important;
+  --line:#3a3b3f!important;
+  --soft:#2b2c30!important;
+  --accent:#e0b35b!important;
+  --accent2:#f0cf87!important;
+  --shadow:0 12px 34px rgba(0,0,0,.34)!important;
+  background:#17181a!important;
+  color:#f1eee8!important;
+}
+body.km-dark .home h1,
+body.km-dark .home-option h2,
+body.km-dark .home-date,
+body.km-dark .home-note{
+  color:#f1eee8!important;
+}
+body.km-dark .home-date span{color:#e0b35b!important}
+body.km-dark .home-option{
+  background:#242528!important;
+  color:#f1eee8!important;
+  border-color:#3b3c40!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.24)!important;
+}
+body.km-dark .home-option p{color:#bdbcb8!important}
+body.km-dark .home-option:hover{background:#292a2e!important}
+body.km-dark .top{
+  background:#1c1d20!important;
+  border-bottom-color:#34353a!important;
+}
+body.km-dark .km-theme-toggle{
+  background:#292a2e!important;
+  color:#f1eee8!important;
+  border-color:#48494e!important;
+}
+body.km-dark .home-ganesh{color:#e0b35b!important}
+</style>
+
+<style id="km-v16-remove-header">
+.top,.brand,.brand-title,.brand-subtitle,.logo,.site-brand,.navbar-brand{display:none!important}
+body{padding-top:0!important}
+</style>
+
+<style id="km-v18-popup">
+.km-modal-backdrop{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.48);display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(5px)}
+.km-modal-backdrop.open{display:flex}
+.km-modal{width:min(520px,100%);background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:22px;box-shadow:0 25px 80px rgba(0,0,0,.28);overflow:hidden}
+.km-modal-head{padding:20px 22px 12px;display:flex;align-items:center;justify-content:space-between}
+.km-modal-head h2{margin:0;font-size:23px}
+.km-close{width:36px;height:36px;border-radius:50%!important;border:1px solid var(--line)!important;background:var(--soft)!important;color:var(--ink)!important;font-size:20px!important}
+.km-form{padding:8px 22px 24px;display:grid;gap:14px}
+.km-field label{display:block;font-size:13px;font-weight:650;margin-bottom:6px;color:var(--muted)}
+.km-field input{width:100%;box-sizing:border-box;padding:12px 13px!important;font-size:15px!important}
+.km-place-help{font-size:11px;color:var(--muted);margin-top:5px}
+.km-form-actions{display:flex;gap:10px;margin-top:5px}
+.km-form-actions button{flex:1;padding:12px 14px!important}
+.km-primary{background:#b07a35!important;color:#fff!important;border:0!important}
+@media(max-width:520px){.km-modal{border-radius:18px}.km-form{padding:8px 16px 20px}.km-modal-head{padding:17px 16px 10px}}
+</style>
+
+<style id="km-v20-click-fix">
+#kmMilanModal{display:none;position:fixed;inset:0;z-index:999999}
+#kmMilanModal.open{display:flex!important}
+.home-option{position:relative;z-index:2;cursor:pointer;pointer-events:auto!important}
+</style>
+
+<style id="km-v21-large-popup">
+#kmMilanModal{padding:12px!important}
+#kmMilanModal .km-modal{
+  width:min(720px,94vw)!important;
+  max-height:92vh!important;
+  border-radius:26px!important;
+}
+#kmMilanModal .km-modal-head{
+  padding:26px 30px 16px!important;
+}
+#kmMilanModal .km-modal-head h2{
+  font-size:30px!important;
+}
+#kmMilanModal .km-close{
+  width:44px!important;height:44px!important;font-size:24px!important;
+}
+#kmMilanModal .km-form{
+  padding:12px 30px 30px!important;
+  gap:19px!important;
+}
+#kmMilanModal .km-field label{
+  font-size:16px!important;
+  margin-bottom:8px!important;
+}
+#kmMilanModal .km-field input{
+  min-height:56px!important;
+  padding:14px 16px!important;
+  font-size:18px!important;
+  border-radius:14px!important;
+}
+#kmMilanModal .km-place-help{
+  font-size:13px!important;margin-top:7px!important;
+}
+#kmMilanModal .km-form-actions{
+  gap:14px!important;margin-top:8px!important;
+}
+#kmMilanModal .km-form-actions button{
+  min-height:56px!important;
+  font-size:17px!important;
+}
+@media(max-width:650px){
+  #kmMilanModal{padding:8px!important}
+  #kmMilanModal .km-modal{
+    width:96vw!important;
+    max-height:94vh!important;
+    border-radius:24px!important;
+  }
+  #kmMilanModal .km-modal-head{padding:24px 24px 12px!important}
+  #kmMilanModal .km-modal-head h2{font-size:28px!important}
+  #kmMilanModal .km-form{padding:10px 24px 26px!important;gap:17px!important}
+  #kmMilanModal .km-field input{min-height:58px!important;font-size:18px!important}
+}
+</style>
+<style id="km-v24-date">
+.km-date-display{width:100%;min-height:58px;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--muted);font-size:18px;cursor:pointer}
+.km-date-display.has-value{color:var(--ink)}
+.km-date-icon{font-size:20px;opacity:.8}
+.km-native-date{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+</style>
+<style id="km-v25-date-two">
+.km-date-two{display:flex;gap:9px;align-items:stretch}
+.km-date-two input{flex:1;min-width:0}
+.km-calendar-btn{font-size:0!important;width:58px!important;min-width:58px!important;padding:0!important;border:1px solid var(--line)!important;border-radius:14px!important;background:var(--soft)!important;color:var(--ink)!important;font-size:21px!important}
+.km-date-options{margin-top:7px;font-size:12px;color:var(--muted)}
+.km-native-date{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important}
+@media(max-width:520px){.km-calendar-btn{font-size:0!important;width:54px!important;min-width:54px!important}}
+</style>
+
+<style id="km-v26-calendar">
+.km-calendar-backdrop{position:fixed;inset:0;z-index:1000000;background:rgba(0,0,0,.42);display:none;align-items:center;justify-content:center;padding:16px}
+.km-calendar-backdrop.open{display:flex}
+.km-calendar-card{width:min(520px,94vw);background:#fff;color:#26231f;border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.30);overflow:hidden}
+.km-cal-top{padding:20px 22px 14px;border-bottom:1px solid #e6e1d8}
+.km-cal-small{font-size:14px;color:#766f66;font-weight:650}
+.km-cal-selected{font-size:32px;font-weight:750;margin-top:6px}
+.km-cal-nav{display:flex;align-items:center;justify-content:space-between;padding:15px 20px 8px}
+.km-cal-month{font-size:18px;font-weight:700}
+.km-cal-nav button,.km-cal-actions button{border:0;background:transparent;color:#9a6b18;font-weight:700;font-size:16px;padding:9px 13px;border-radius:10px}
+.km-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:8px 16px 18px}
+.km-cal-week,.km-cal-day{display:grid;place-items:center;min-height:44px;font-size:16px}
+.km-cal-week{color:#7b756e;font-weight:650}
+.km-cal-day{border:0;background:transparent;color:#292723;border-radius:50%;cursor:pointer}
+.km-cal-day:hover{background:#f0ece4}
+.km-cal-day.selected{background:#e8a900;color:#fff;font-weight:750}
+.km-cal-day.empty{cursor:default}
+.km-cal-actions{display:flex;justify-content:flex-end;gap:8px;padding:4px 16px 16px}
+.km-cal-input{margin-top:12px;width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #d8d1c6;border-radius:10px;font-size:17px;background:#faf9f7;color:#25231f}
+body.km-dark .km-calendar-card{background:#2b2c2f;color:#f1eee8}
+body.km-dark .km-cal-top{border-bottom-color:#46474b}
+body.km-dark .km-cal-small,.km-dark .km-cal-week{color:#b7b5b0}
+body.km-dark .km-cal-day{color:#f1eee8}
+body.km-dark .km-cal-day:hover{background:#3a3b3f}
+body.km-dark .km-cal-input{background:#343539;color:#f1eee8;border-color:#55565b}
+@media(max-width:520px){.km-calendar-card{width:96vw}.km-cal-day,.km-cal-week{min-height:42px}.km-cal-selected{font-size:28px}}
+</style>
+
+<style id="km-v27-year-picker">
+.km-cal-month-btn{border:0!important;background:transparent!important;color:inherit!important;font:inherit!important;cursor:pointer!important;padding:7px 10px!important;border-radius:10px!important}
+.km-cal-month-btn:hover{background:rgba(128,128,128,.12)!important}
+.km-year-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 22px 22px;max-height:420px;overflow:auto}
+.km-year-btn{border:0;background:transparent;color:inherit;border-radius:24px;padding:12px 8px;font-size:17px;cursor:pointer}
+.km-year-btn:hover{background:rgba(128,128,128,.12)}
+.km-year-btn.selected{background:#e8a900;color:#fff;font-weight:750}
+.km-year-head{display:flex;align-items:center;justify-content:space-between;padding:8px 22px 2px}
+.km-year-head button{border:0;background:transparent;color:#9a6b18;font-size:28px;padding:5px 10px;border-radius:10px}
+body.km-dark .km-year-btn{color:#f1eee8}
+@media(max-width:520px){.km-year-grid{padding-left:16px;padding-right:16px}.km-year-btn{font-size:16px}}
+
+<style id="km-v28-calendar-fix">
+/* Calendar always has a solid surface and readable text in both modes */
+#kmCalendar .km-calendar-card{
+  background:#fff!important;
+  color:#272522!important;
+  border:1px solid #ddd7ce!important;
+}
+#kmCalendar .km-cal-small,
+#kmCalendar .km-cal-month,
+#kmCalendar .km-cal-selected{color:#272522!important}
+#kmCalendar .km-cal-week{color:#77716a!important}
+#kmCalendar .km-cal-day{color:#272522!important;background:transparent!important}
+#kmCalendar .km-cal-day:hover{background:#eee9e1!important}
+#kmCalendar .km-cal-day.selected{background:#e8a900!important;color:#fff!important}
+#kmCalendar .km-cal-nav button,
+#kmCalendar .km-cal-actions button,
+#kmCalendar .km-year-head button{color:#9a6b18!important}
+#kmCalendar .km-year-btn{color:#272522!important;background:transparent!important}
+#kmCalendar .km-year-btn:hover{background:#eee9e1!important}
+#kmCalendar .km-year-btn.selected{background:#e8a900!important;color:#fff!important}
+#kmCalendar .km-cal-input{
+  background:#faf9f7!important;color:#272522!important;border-color:#d8d1c6!important;
+}
+#kmCalendar .km-cal-month-btn{color:#272522!important;background:transparent!important}
+
+/* Night mode */
+body.km-dark #kmCalendar .km-calendar-card{
+  background:#2b2c2f!important;color:#f1eee8!important;border-color:#46474b!important;
+}
+body.km-dark #kmCalendar .km-cal-small,
+body.km-dark #kmCalendar .km-cal-month,
+body.km-dark #kmCalendar .km-cal-selected,
+body.km-dark #kmCalendar .km-cal-month-btn{color:#f1eee8!important}
+body.km-dark #kmCalendar .km-cal-week{color:#b7b5b0!important}
+body.km-dark #kmCalendar .km-cal-day,
+body.km-dark #kmCalendar .km-year-btn{color:#f1eee8!important}
+body.km-dark #kmCalendar .km-cal-day:hover,
+body.km-dark #kmCalendar .km-year-btn:hover{background:#3a3b3f!important}
+body.km-dark #kmCalendar .km-cal-input{
+  background:#343539!important;color:#f1eee8!important;border-color:#55565b!important;
+}
+</style>
+
+<style id="km-v32-girl-large">
+#kmGirlModal{padding:12px!important}
+#kmGirlModal .km-modal{
+  width:min(720px,94vw)!important;
+  max-height:92vh!important;
+  border-radius:26px!important;
+}
+#kmGirlModal .km-modal-head{
+  padding:18px 30px 10px!important;
+  min-height:28px!important;
+}
+#kmGirlModal .km-close{
+  width:44px!important;height:44px!important;font-size:24px!important;
+}
+#kmGirlModal .km-form{
+  padding:12px 30px 30px!important;
+  gap:19px!important;
+}
+#kmGirlModal .km-field label{
+  font-size:16px!important;
+  margin-bottom:8px!important;
+}
+#kmGirlModal .km-field input{
+  min-height:58px!important;
+  padding:14px 16px!important;
+  font-size:18px!important;
+  border-radius:14px!important;
+}
+#kmGirlModal .km-place-help{
+  font-size:13px!important;margin-top:7px!important;
+}
+#kmGirlModal .km-form-actions{
+  gap:14px!important;margin-top:8px!important;
+}
+#kmGirlModal .km-form-actions button{
+  min-height:56px!important;
+  font-size:17px!important;
+}
+@media(max-width:650px){
+  #kmGirlModal{padding:8px!important}
+  #kmGirlModal .km-modal{
+    width:96vw!important;
+    max-height:94vh!important;
+    border-radius:24px!important;
+  }
+  #kmGirlModal .km-modal-head{padding:20px 24px 8px!important}
+  #kmGirlModal .km-form{padding:10px 24px 26px!important;gap:17px!important}
+  #kmGirlModal .km-field input{min-height:58px!important;font-size:18px!important}
+}
+</style>
+
+
+
+<style id="km-v34-native-time">
+#kmGirlTimeModal{display:none!important}
+#kmGirlTime{position:fixed!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:.01!important;pointer-events:none!important}
+</style>
+
+<style id="km-v35-time-clean">
+.km-time-field{
+  width:100%!important;
+  min-height:58px!important;
+  padding:14px 16px!important;
+  border:1px solid var(--line)!important;
+  border-radius:14px!important;
+  background:var(--soft)!important;
+  color:var(--muted)!important;
+  text-align:left!important;
+  font:inherit!important;
+  font-size:18px!important;
+  cursor:pointer!important;
+}
+.km-time-field.has-time{color:var(--ink)!important}
+</style>
+
+<style id="km-v37-selected-time">
+.km-time-field{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  text-align:left!important;
+}
+.km-time-field.has-time{color:var(--ink)!important}
+</style>
+
+<style id="km-v38-review">
+#kmReviewModal{padding:12px!important}
+.km-review-modal{
+  width:min(720px,94vw)!important;max-height:92vh!important;overflow:auto;
+  background:var(--card,#fff);color:var(--ink,#272522);
+  border:1px solid var(--line,#ddd7ce);border-radius:26px;
+  box-shadow:0 24px 80px rgba(0,0,0,.30);padding:26px;
+}
+.km-review-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:20px}
+.km-review-title{font-size:30px;font-weight:800;color:#a26b00}
+.km-review-subtitle{font-size:16px;margin-top:6px;color:var(--muted,#777)}
+.km-review-info{background:var(--soft,#f7f4ee);border-radius:18px;padding:18px 20px;margin-bottom:16px}
+.km-review-row{display:grid;grid-template-columns:150px 1fr;gap:12px;padding:5px 0;font-size:17px}
+.km-review-row span{color:var(--muted,#777)}
+.km-person-card{background:var(--soft,#f7f4ee);border-radius:20px;padding:22px 24px;margin:14px 0}
+.km-person-head{display:flex;align-items:center;gap:12px;font-size:23px;margin-bottom:18px}
+.km-person-head span{font-size:26px}
+.km-person-head button{margin-left:auto;border:0;background:transparent;color:#c58a00;font-weight:800;font-size:17px;cursor:pointer}
+.km-person-grid{display:grid;grid-template-columns:150px 1fr;gap:11px 18px;font-size:17px;line-height:1.45}
+.km-person-grid div{color:var(--muted,#777)}
+.km-person-grid strong{word-break:break-word}
+.km-review-actions{display:flex;gap:14px;margin-top:20px}
+.km-review-actions button{flex:1;min-height:56px;border:0;border-radius:16px;font:inherit;font-size:17px;font-weight:750;cursor:pointer;background:var(--soft,#f7f4ee);color:var(--ink,#272522)}
+.km-review-actions .km-primary{background:#c98a19;color:#fff}
+body.km-dark .km-review-modal{background:#2b2c2f;color:#f1eee8;border-color:#46474b}
+body.km-dark .km-review-info,body.km-dark .km-person-card{background:#35363a}
+body.km-dark .km-review-subtitle,body.km-dark .km-review-row span,body.km-dark .km-person-grid div{color:#b7b5b0}
+body.km-dark .km-review-actions button{background:#35363a;color:#f1eee8}
+body.km-dark .km-review-actions .km-primary{background:#c98a19;color:#fff}
+@media(max-width:600px){
+  .km-review-modal{width:96vw!important;padding:22px 18px!important;border-radius:24px}
+  .km-review-title{font-size:27px}
+  .km-review-row,.km-person-grid{grid-template-columns:105px 1fr;font-size:16px}
+  .km-person-card{padding:18px 16px}
+  .km-review-actions{flex-direction:column}
+}
+</style>
+
+<style id="km-v39-boy-date-clean">
+#kmBoyDateManual{cursor:pointer}
+</style>
+
+<style id="km-v40-manual-date">
+#kmBoyDateManual{
+  pointer-events:auto!important;
+  user-select:text!important;
+  -webkit-user-select:text!important;
+  cursor:text!important;
+}
+</style>
+
+<style id="km-v41-date-only">
+#kmBoyDateManual{pointer-events:auto!important;cursor:text!important;user-select:text!important;-webkit-user-select:text!important}
+</style>
+
+<style id="km-v42-girl-date-clean">
+#kmGirlDateManual{
+  pointer-events:auto!important;
+  cursor:text!important;
+  user-select:text!important;
+  -webkit-user-select:text!important;
+}
+</style>
+
+<style id="km-v52-review-flow">
+#kmReviewModal.open{display:flex!important}
+</style>
+
+<style id="km-v57-girl-time-like-boy">
+#kmGirlModal #kmGirlTime{
+  position:relative!important;
+  left:auto!important;
+  width:100%!important;
+  height:auto!important;
+  min-height:58px!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  display:block!important;
+  visibility:visible!important;
+  padding:14px 16px!important;
+  border:1px solid var(--line)!important;
+  border-radius:14px!important;
+  background:var(--soft)!important;
+  color:var(--text)!important;
+  font-size:18px!important;
+  box-sizing:border-box!important;
+}
+#kmGirlModal #kmGirlTime::-webkit-calendar-picker-indicator{
+  opacity:1!important;
+  cursor:pointer!important;
+}
+#kmGirlModal .km-time-field{display:none!important}
+</style>
+
+</head><body><button id="kmThemeToggle" class="km-theme-toggle" type="button" aria-label="दिवस आणि रात्र मोड" title="दिवस / रात्र">
+  <span id="kmThemeIcon" aria-hidden="true">☀️</span>
+  <span id="kmThemeLabel">दिवस</span>
+</button>
+<script>
+(function(){
+  const btn=document.getElementById('kmThemeToggle');
+  const icon=document.getElementById('kmThemeIcon');
+  const label=document.getElementById('kmThemeLabel');
+  function apply(mode){
+    document.body.classList.toggle('km-dark',mode==='dark');
+    localStorage.setItem('km-theme',mode);
+    icon.textContent=mode==='dark'?'🌙':'☀️';
+    label.textContent=mode==='dark'?'रात्र':'दिवस';
+  }
+  btn.addEventListener('click',function(){
+    apply(document.body.classList.contains('km-dark')?'light':'dark');
+  });
+  apply(localStorage.getItem('km-theme')||'light');
+})();
+
+function closeMilanModal(){
+  const m=document.getElementById('kmMilanModal'); if(m) m.classList.remove('open');
+}
+function submitBoyDetails(e){
+  e.preventDefault();
+  var manual=document.getElementById('kmBoyDateManual'),nativeDate=document.getElementById('kmBoyDate');
+  var mm=manual&&manual.value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if(!mm){manual.reportValidity();manual.focus();return}
+  var dd=+mm[1],mo=+mm[2],yy=+mm[3],test=new Date(yy,mo-1,dd);
+  if(test.getFullYear()!==yy||test.getMonth()!==mo-1||test.getDate()!==dd){manual.setCustomValidity('कृपया योग्य जन्मदिनांक टाका.');manual.reportValidity();return}
+  manual.setCustomValidity('');nativeDate.value=yy+'-'+String(mo).padStart(2,'0')+'-'+String(dd).padStart(2,'0');
+  var time=document.getElementById('kmBoyTime')?.value||document.getElementById('kmBoyTimeManual')?.value||'';
+  if(!time){alert('कृपया जन्मवेळ टाका.');return}
+  var data={name:document.getElementById('kmBoyName').value.trim(),date:nativeDate.value,time:time,place:document.getElementById('kmBoyPlace').value.trim()};
+  if(!data.name||!data.place){alert('कृपया सर्व माहिती भरा.');return}
+  localStorage.setItem('km-boy-details',JSON.stringify(data));
+  closeMilanModal();
+  var girl=document.getElementById('kmGirlModal');
+  if(girl){girl.classList.add('open');document.body.style.overflow='hidden';setTimeout(function(){document.getElementById('kmGirlName')?.focus()},60)}
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeMilanModal();});
+
+function openMilanPopup(){
+  var modal=document.getElementById('kmMilanModal');
+  if(modal){
+    modal.classList.add('open');
+    modal.style.display='flex';
+    document.body.style.overflow='hidden';
+    setTimeout(function(){
+      var el=document.getElementById('kmBoyName');
+      if(el) el.focus();
+    },50);
+  }
+}
+function closeMilanModal(){
+  var modal=document.getElementById('kmMilanModal');
+  if(modal){
+    modal.classList.remove('open');
+    modal.style.display='';
+  }
+  document.body.style.overflow='';
+}
+function openPatrikaPopup(){
+  if(typeof toast==='function') toast('जन्म पत्रिका मॉड्यूल पुढील आवृत्तीत उपलब्ध होईल.');
+}
+</script>
+
+
+
+<div class="tag"></div></div></div></div>
+<section id="home" class="home">
+  <div class="home-head">
+    <h1>कुंडली मेलन</h1>
+    
+  </div>
+  <div class="home-options">
+    <button class="home-option" type="button" onclick="openPatrikaPopup()">
+      <div class="ico">📜</div>
+      <h2>जन्म पत्रिका</h2>
+      <p>जन्मकुंडली, ग्रहस्थिती आणि नक्षत्र</p>
+    </button>
+    <button class="home-option" type="button" onclick="openMilanPopup()">
+      <div class="ico">💞</div>
+      <h2>कुंडली मेलन</h2>
+      <p>वर-वधूचे गुणमेलन आणि सविस्तर रिपोर्ट</p>
+    </button>
+  </div>
+  
+</section>
+
+<div id="kmMilanModal" class="km-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="kmMilanTitle" onclick="if(event.target===this)closeMilanModal()">
+  <div class="km-modal">
+    <div class="km-modal-head">
+      
+      <button class="km-close" type="button" onclick="closeMilanModal()">×</button>
+    </div>
+    <form class="km-form" onsubmit="submitBoyDetails(event)">
+      <div class="km-field">
+        <label for="kmBoyName">मुलाचे नाव</label>
+        <input id="kmBoyName" name="boyName" type="text" placeholder="मुलाचे नाव" autocomplete="name" required>
+      </div>
+      <div class="km-field">
+        <label>जन्मदिनांक</label>
+        <div class="km-date-two">
+          <input id="kmBoyDateManual" type="text" inputmode="numeric" maxlength="10" placeholder="DD/MM/YYYY" autocomplete="bday" required>
+        </div>
+        <input id="kmBoyDate" name="boyDate" type="date" required class="km-native-date" aria-hidden="true" tabindex="-1">
+        <div class="km-date-options"></div>
+      </div>
+      <div class="km-field">
+        <label for="kmBoyTime">जन्मवेळ</label>
+        <input id="kmBoyTime" name="boyTime" type="time" required>
+      </div>
+      <div class="km-field">
+        <label for="kmBoyPlace">जन्मस्थळ</label>
+        <input id="kmBoyPlace" name="boyPlace" type="text" placeholder="गाव / शहर शोधा" autocomplete="off" required>
+        <div class="km-place-help">गाव किंवा शहराचे नाव लिहा.</div>
+      </div>
+      <div class="km-form-actions">
+        <button type="button" onclick="closeMilanModal()">रद्द करा</button>
+        <button class="km-primary" type="submit">पुढे जा →</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="kmCalendar" class="km-calendar-backdrop" role="dialog" aria-modal="true" onclick="if(event.target===this)closeCalendar()">
+  <div class="km-calendar-card">
+    <div class="km-cal-top">
+      <div class="km-cal-small">जन्मदिनांक</div>
+      <div id="kmCalSelected" class="km-cal-selected">तारीख निवडा</div>
+      <input id="kmCalManual" class="km-cal-input" inputmode="numeric" maxlength="10" placeholder="DD/MM/YYYY">
+    </div>
+    <div class="km-cal-nav">
+      <button type="button" onclick="kmCalPrev()">‹</button>
+      <button type="button" id="kmCalMonth" class="km-cal-month km-cal-month-btn" onclick="kmCalYears()"></button>
+      <button type="button" onclick="kmCalNext()">›</button>
+    </div>
+    <div id="kmCalGrid" class="km-cal-grid"></div>
+    <div class="km-cal-actions">
+      <button type="button" onclick="closeCalendar()">रद्द करा</button>
+      <button type="button" onclick="kmCalSet()">ठीक आहे</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="kmReviewModal" class="km-modal-backdrop" role="dialog" aria-modal="true" onclick="if(event.target===this)closeReviewModal()">
+  <div class="km-review-modal">
+    <div class="km-review-head">
+      <div>
+        <div class="km-review-title">ऑर्डर तपासा</div>
+        <div class="km-review-subtitle">कृपया सबमिट करण्यापूर्वी तपशील तपासा</div>
+      </div>
+      <button class="km-close" type="button" onclick="closeReviewModal()">×</button>
+    </div>
+
+    <div class="km-review-info">
+      <div class="km-review-row"><span>प्रकार</span><strong>कुंडली मिलन</strong></div>
+      <div class="km-review-row"><span>भाषा</span><strong>मराठी</strong></div>
+    </div>    <div class="km-person-card">
+      <div class="km-person-head"><span>👨</span><strong>वर (मुलगा)</strong><button type="button" onclick="changeBoyDetails()">बदला</button></div>
+      <div class="km-person-grid">
+        <div>नाव</div><strong id="kmReviewBoyName">—</strong>
+        <div>दिनांक</div><strong id="kmReviewBoyDate">—</strong>
+        <div>वेळ</div><strong id="kmReviewBoyTime">—</strong>
+        <div>ठिकाण</div><strong id="kmReviewBoyPlace">—</strong>
+      </div>
+    </div>
+
+    <div class="km-person-card">
+      <div class="km-person-head"><span>👩</span><strong>वधू (मुलगी)</strong><button type="button" onclick="changeGirlDetails()">बदला</button></div>
+      <div class="km-person-grid">
+        <div>नाव</div><strong id="kmReviewGirlName">—</strong>
+        <div>दिनांक</div><strong id="kmReviewGirlDate">—</strong>
+        <div>वेळ</div><strong id="kmReviewGirlTime">—</strong>
+        <div>ठिकाण</div><strong id="kmReviewGirlPlace">—</strong>
+      </div>
+    </div>
+
+    <div class="km-review-actions">
+      <button type="button" onclick="closeReviewModal()">रद्द करा</button>
+      <button type="button" class="km-primary" onclick="confirmKundliDetails()">ऑर्डर सबमिट →</button>
+    </div>
+  </div>
+</div>
+<div id="kmGirlModal" class="km-modal-backdrop" role="dialog" aria-modal="true" onclick="if(event.target===this)closeGirlModal()">
+  <div class="km-modal">
+    <div class="km-modal-head"><button type="button" class="km-close" onclick="openBoyFromGirlClose()" aria-label="मुलाची माहिती">×</button></div>
+    <form class="km-form" onsubmit="submitGirlDetails(event)">
+      <div class="km-field"><label for="kmGirlName">मुलीचे नाव</label><input id="kmGirlName" type="text" placeholder="मुलीचे नाव" required></div>
+      <div class="km-field">
+        <label>जन्मदिनांक</label>
+        <div class="km-date-two"><input id="kmGirlDateManual" type="text" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="DD/MM/YYYY" required></div>
+        <input id="kmGirlDate" type="date" class="km-native-date" aria-hidden="true" tabindex="-1">
+      </div>
+      <div class="km-field">
+        <label for="kmGirlTime">जन्मवेळ</label>
+        <input id="kmGirlTime" name="girlTime" type="time" required>
+        <input id="kmGirlTimeManual" type="hidden" autocomplete="off">
+      </div>
+      <div class="km-field"><label for="kmGirlPlace">जन्मस्थळ</label><input id="kmGirlPlace" type="text" placeholder="गाव / शहर शोधा" required><div class="km-place-help">गाव किंवा शहराचे नाव लिहा.</div></div>
+      <div class="km-form-actions"><button type="button" onclick="closeGirlModal()">रद्द करा</button><button class="km-primary" type="submit">पुढे जा →</button></div>
+    </form>
+  </div>
+</div>
+<div id="kmGirlCalendar" class="km-calendar-backdrop" onclick="if(event.target===this)closeGirlCalendar()">
+  <div class="km-calendar-card">
+    <div class="km-cal-top"><div class="km-cal-small">जन्मदिनांक</div><div id="kmGirlCalSelected" class="km-cal-selected">तारीख निवडा</div><input id="kmGirlCalManual" class="km-cal-input" inputmode="numeric" maxlength="10" placeholder="DD/MM/YYYY"></div>
+    <div class="km-cal-nav"><button type="button" onclick="kmGirlCalPrev()">‹</button><button type="button" id="kmGirlCalMonth" class="km-cal-month km-cal-month-btn"></button><button type="button" onclick="kmGirlCalNext()">›</button></div>
+    <div id="kmGirlCalGrid" class="km-cal-grid"></div>
+    <div class="km-cal-actions"><button type="button" onclick="closeGirlCalendar()">रद्द करा</button><button type="button" onclick="kmGirlCalSet()">ठीक आहे</button></div>
+  </div>
+</div>
+<div style="padding:14px 22px 24px"><input id="kmGirlTimeInput" class="km-cal-input" type="time" style="height:56px;font-size:22px"></div>
+  <div class="km-cal-actions"><button type="button" onclick="closeGirlTimePicker()">रद्द करा</button><button type="button" onclick="setGirlTime()">ठीक आहे</button></div></div>
+</div>
+<div id="appShell" class="app-shell">
+  <div class="backhome"><button onclick="goHome()">← मुख्य पान</button></div>
+<section class="hero"><div><div class="badge">व्यवसायासाठी तयार • Privacy-first</div><h1>कुंडली मेलन</h1><p>वर आणि वधूची जन्ममाहिती भरून पारंपरिक अष्टकूट गुणमेलन, मंगळ दोष, राशी-नक्षत्र आणि लग्न कुंडलीचा सुंदर रिपोर्ट तयार करा.</p></div><div class="hero-card"><div class="om">ॐ</div><b style="display:block;text-align:center">Lahiri Sidereal • Whole Sign</b><p class="note" style="text-align:center">खगोलीय गणनेसाठी Swiss Ephemeris engine वापरले जाते.</p></div></section>
+<main class="wrap">
+  <section class="card" style="margin-top:20px;text-align:center;padding:42px 22px">
+    <div style="font-size:46px">💞</div>
+    <h2 style="margin:10px 0">कुंडली मेलन</h2>
+    <p class="note" style="max-width:650px;margin:0 auto">
+      सध्याचा कुंडली मेलन फॉर्मॅट काढून टाकला आहे.
+      नवीन ग्राहक फॉर्म व रिपोर्ट लेआउट स्वतंत्रपणे तयार करण्यासाठी हे मॉड्यूल रिकामे ठेवले आहे.
+    </p>
+  </section>
+</main>
+</div>
+
+
+<script id="km-v26-calendar-js">
+(function(){
+  var calDate=new Date(); calDate.setDate(1);
+  var picked=null;
+  function pad(n){return String(n).padStart(2,'0')}
+  function isoToDate(v){if(!v)return null;var p=v.split('-');return p.length===3?new Date(+p[0],+p[1]-1,+p[2]):null}
+  function manualIso(v){
+    var m=(v||'').match(/^(\d{2})\/(\d{2})\/(\d{4})$/); if(!m)return null;
+    var d=+m[1],mo=+m[2],y=+m[3],t=new Date(y,mo-1,d);
+    return t.getFullYear()===y&&t.getMonth()===mo-1&&t.getDate()===d ? y+'-'+pad(mo)+'-'+pad(d) : null;
+  }
+  var yearView=false, yearPageStart=1990;
+  function render(){
+    if(yearView){ renderYears(); return; }
+    var grid=document.getElementById('kmCalGrid'), title=document.getElementById('kmCalMonth');
+    if(!grid||!title)return;
+    var y=calDate.getFullYear(),m=calDate.getMonth();
+    title.textContent=new Intl.DateTimeFormat('mr-IN',{month:'long',year:'numeric'}).format(calDate);
+    grid.innerHTML='';
+    ['र','सो','मं','बु','गु','शु','श'].forEach(function(x){var e=document.createElement('div');e.className='km-cal-week';e.textContent=x;grid.appendChild(e)});
+    var first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate();
+    for(var i=0;i<first;i++){var e=document.createElement('div');e.className='km-cal-day empty';grid.appendChild(e)}
+    for(var d=1;d<=days;d++){
+      var b=document.createElement('button');b.type='button';b.className='km-cal-day';b.textContent=d;
+      if(picked&&picked.getFullYear()===y&&picked.getMonth()===m&&picked.getDate()===d)b.classList.add('selected');
+      (function(day){b.onclick=function(){picked=new Date(y,m,day);updateSelected();render()}})(d);
+      grid.appendChild(b);
+    }
+  }
+  function renderYears(){
+    var grid=document.getElementById('kmCalGrid'), title=document.getElementById('kmCalMonth');
+    if(!grid||!title)return;
+    title.textContent='वर्ष निवडा';
+    grid.innerHTML='';
+    grid.className='km-cal-grid km-year-grid';
+    var current=calDate.getFullYear();
+    if(!yearPageStart) yearPageStart=current-2;
+    for(var y=yearPageStart;y<yearPageStart+15;y++){
+      var b=document.createElement('button');b.type='button';b.className='km-year-btn';b.textContent=y;
+      if(y===current)b.classList.add('selected');
+      (function(year){b.onclick=function(){calDate.setFullYear(year);yearView=false;grid.className='km-cal-grid';render()}})(y);
+      grid.appendChild(b);
+    }
+  }
+  function updateSelected(){
+    var el=document.getElementById('kmCalSelected'), inp=document.getElementById('kmCalManual');
+    if(picked){
+      el.textContent=new Intl.DateTimeFormat('en-GB',{day:'2-digit',month:'short',year:'numeric'}).format(picked);
+      inp.value=pad(picked.getDate())+'/'+pad(picked.getMonth()+1)+'/'+picked.getFullYear();
+    }else{el.textContent='तारीख निवडा'}
+  }
+  window.kmCalYears=function(){yearView=true;yearPageStart=calDate.getFullYear()-2;renderYears()};
+  window.openCalendar=function(){
+    yearView=false;
+    var n=document.getElementById('kmBoyDate'), m=document.getElementById('kmCalManual');
+    picked=isoToDate(n&&n.value);
+    if(!picked){var mi=manualIso(m&&m.value);picked=isoToDate(mi)}
+    if(picked)calDate=new Date(picked.getFullYear(),picked.getMonth(),1);else calDate=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+    updateSelected();render();document.getElementById('kmCalendar').classList.add('open');
+  };
+  window.closeCalendar=function(){document.getElementById('kmCalendar').classList.remove('open')};
+  window.kmCalPrev=function(){if(yearView){yearPageStart-=15;renderYears()}else{calDate.setMonth(calDate.getMonth()-1);render()}};
+  window.kmCalNext=function(){if(yearView){yearPageStart+=15;renderYears()}else{calDate.setMonth(calDate.getMonth()+1);render()}};
+  window.kmCalSet=function(){
+    var inp=document.getElementById('kmCalManual'), n=document.getElementById('kmBoyDate'), main=document.getElementById('kmBoyDateManual');
+    var iso=manualIso(inp.value);
+    if(!iso){inp.setCustomValidity('कृपया DD/MM/YYYY योग्य तारीख टाका.');inp.reportValidity();return}
+    inp.setCustomValidity('');
+    if(n)n.value=iso;
+    if(main)main.value=inp.value;
+    closeCalendar();
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    var m=document.getElementById('kmBoyDateManual'),n=document.getElementById('kmBoyDate');
+    if(m)m.addEventListener('input',function(){
+      var digits=m.value.replace(/\D/g,'').slice(0,8);
+      m.value=digits.length>4?digits.slice(0,2)+'/'+digits.slice(2,4)+'/'+digits.slice(4):digits.length>2?digits.slice(0,2)+'/'+digits.slice(2):digits;
+      var iso=manualIso(m.value);if(n&&iso)n.value=iso;
+    });
+  });
+})();
+</script>
+
+<script id="km-v31-girl-js">
+(function(){
+  function pad(n){return String(n).padStart(2,'0')}
+  function validDate(v){var m=(v||'').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);if(!m)return null;var d=+m[1],mo=+m[2],y=+m[3],t=new Date(y,mo-1,d);return t.getFullYear()===y&&t.getMonth()===mo-1&&t.getDate()===d?y+'-'+pad(mo)+'-'+pad(d):null}
+  var girlCalDate=new Date(new Date().getFullYear(),new Date().getMonth(),1),girlPicked=null;
+  window.closeGirlModal=function(){var e=document.getElementById('kmGirlModal');if(e)e.classList.remove('open');document.body.style.overflow=''};
+  window.openGirlCalendar=function(){var e=document.getElementById('kmGirlCalendar');e.classList.add('open');renderGirlCalendar()};
+  window.closeGirlCalendar=function(){document.getElementById('kmGirlCalendar').classList.remove('open')};
+  window.kmGirlCalPrev=function(){girlCalDate.setMonth(girlCalDate.getMonth()-1);renderGirlCalendar()};
+  window.kmGirlCalNext=function(){girlCalDate.setMonth(girlCalDate.getMonth()+1);renderGirlCalendar()};
+  function renderGirlCalendar(){var g=document.getElementById('kmGirlCalGrid'),t=document.getElementById('kmGirlCalMonth');if(!g)return;var y=girlCalDate.getFullYear(),m=girlCalDate.getMonth();t.textContent=new Intl.DateTimeFormat('mr-IN',{month:'long',year:'numeric'}).format(girlCalDate);g.innerHTML='';['र','सो','मं','बु','गु','शु','श'].forEach(function(x){var e=document.createElement('div');e.className='km-cal-week';e.textContent=x;g.appendChild(e)});var f=new Date(y,m,1).getDay(),d=new Date(y,m+1,0).getDate();for(var i=0;i<f;i++){var e=document.createElement('div');e.className='km-cal-day empty';g.appendChild(e)}for(var n=1;n<=d;n++){var b=document.createElement('button');b.type='button';b.className='km-cal-day';b.textContent=n;(function(day){b.onclick=function(){girlPicked=new Date(y,m,day);document.getElementById('kmGirlCalSelected').textContent=pad(day)+'/'+pad(m+1)+'/'+y;renderGirlCalendar()}})(n);g.appendChild(b)}}
+  window.kmGirlCalSet=function(){var m=document.getElementById('kmGirlCalManual'),iso=validDate(m.value);if(!iso&&girlPicked)iso=girlPicked.getFullYear()+'-'+pad(girlPicked.getMonth()+1)+'-'+pad(girlPicked.getDate());if(!iso){m.setCustomValidity('योग्य जन्मदिनांक टाका.');m.reportValidity();return}var p=iso.split('-');document.getElementById('kmGirlDate').value=iso;document.getElementById('kmGirlDateManual').value=p[2]+'/'+p[1]+'/'+p[0];closeGirlCalendar()};
+  window.openGirlNativeTimePicker=function(){
+    var n=document.getElementById('kmGirlTime');
+    var manual=document.getElementById('kmGirlTimeManual');
+    if(n){
+      if(manual && /^\d{2}:\d{2}$/.test(manual.value)) n.value=manual.value;
+      n.style.position='fixed';
+      n.style.left='-9999px';
+      n.style.opacity='0.01';
+      n.style.pointerEvents='none';
+      try{
+        if(typeof n.showPicker==='function'){ n.showPicker(); }
+        else { n.focus(); n.click(); }
+      }catch(e){ n.focus(); n.click(); }
+    }
+  };
+
+    window.openGirlTimePicker=function(){var e=document.getElementById('kmGirlTimeModal'),i=document.getElementById('kmGirlTimeInput'),n=document.getElementById('kmGirlTime');i.value=n.value||'12:00';e.classList.add('open')};
+  window.closeGirlTimePicker=function(){document.getElementById('kmGirlTimeModal').classList.remove('open')};
+  window.setGirlTime=function(){var i=document.getElementById('kmGirlTimeInput'),n=document.getElementById('kmGirlTime'),m=document.getElementById('kmGirlTimeManual');n.value=i.value;m.value=i.value;closeGirlTimePicker()};
+  window.submitGirlDetails=function(e){
+    e.preventDefault();
+
+    var d=document.getElementById('kmGirlDate');
+    var m=document.getElementById('kmGirlDateManual');
+    if(!d.value){
+      var x=(m.value||'').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if(x){
+        var day=+x[1],mo=+x[2],yr=+x[3],dt=new Date(yr,mo-1,day);
+        if(dt.getFullYear()===yr && dt.getMonth()===mo-1 && dt.getDate()===day){
+          d.value=yr+'-'+String(mo).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+        }
+      }
+    }
+    if(!d.value){m.reportValidity();m.focus();return}
+
+    var t=document.getElementById('kmGirlTime').value ||
+          document.getElementById('kmGirlTimeManual').value;
+    if(!t){alert('कृपया जन्मवेळ टाका.');return}
+
+    var data={
+      name:document.getElementById('kmGirlName').value.trim(),
+      date:d.value,
+      time:t,
+      place:document.getElementById('kmGirlPlace').value.trim()
+    };
+    if(!data.name){alert('कृपया मुलीचे नाव भरा.');return}
+    if(!data.place){alert('कृपया जन्मस्थळ भरा.');return}
+
+    localStorage.setItem('km-girl-details',JSON.stringify(data));
+
+    // फक्त मुलीचा popup बंद करा आणि त्यानंतर Order Review popup उघडा.
+    var gm=document.getElementById('kmGirlModal');
+    if(gm){gm.classList.remove('open');gm.style.display='none';}
+
+    // Review मध्ये दोन्ही बाजूंची ताजी माहिती पुन्हा भरून मगच popup दाखवा.
+    if(typeof openReviewModal==='function'){
+      openReviewModal();
+    }else{
+      var review=document.getElementById('kmReviewModal');
+      if(review){review.classList.add('open');review.style.display='flex';}
+    }
+    document.body.style.overflow='hidden';
+  }
+  function sync(){
+    if(n&&n.value){
+      if(m)m.value=n.value;
+      if(f){f.textContent=formatSelectedTime(n.value);f.classList.add('has-time');}
+    }
+  }
+  if(n){n.addEventListener('change',sync);n.addEventListener('input',sync);}
+});
+</script>
+
+<script id="km-v38-review-js">
+(function(){
+  function formatDate(v){
+    if(!v)return '—';
+    var p=v.split('-'); return p.length===3?p[2]+'-'+p[1]+'-'+p[0]:v;
+  }
+  function formatTime(v){
+    if(!v)return '—';
+    var p=v.split(':'),h=parseInt(p[0],10),m=p[1]||'00',ap=h>=12?'PM':'AM';
+    h=h%12;if(h===0)h=12;return h+':'+m+' '+ap;
+  }
+  function setText(id,v){var e=document.getElementById(id);if(e)e.textContent=v||'—'}
+  window.closeReviewModal=function(){var e=document.getElementById('kmReviewModal');if(e)e.classList.remove('open');document.body.style.overflow=''}
+  window.openReviewModal=function(){
+    var b=JSON.parse(localStorage.getItem('km-boy-details')||'null');
+    var g=JSON.parse(localStorage.getItem('km-girl-details')||'null');
+    if(!b||!g)return;
+    setText('kmReviewBoyName',b.name);setText('kmReviewBoyDate',formatDate(b.date));setText('kmReviewBoyTime',formatTime(b.time));setText('kmReviewBoyPlace',b.place);
+    setText('kmReviewGirlName',g.name);setText('kmReviewGirlDate',formatDate(g.date));setText('kmReviewGirlTime',formatTime(g.time));setText('kmReviewGirlPlace',g.place);
+    var e=document.getElementById('kmReviewModal');if(e)e.classList.add('open');document.body.style.overflow='hidden';
+  }
+  window.changeGirlDetails=function(){
+    closeReviewModal();
+    var g=document.getElementById('kmGirlModal');
+    if(!g)return;
+    var d=JSON.parse(localStorage.getItem('km-girl-details')||'null');
+    if(d){
+      var n=document.getElementById('kmGirlName'), dt=document.getElementById('kmGirlDate'), dm=document.getElementById('kmGirlDateManual');
+      var t=document.getElementById('kmGirlTime'), tm=document.getElementById('kmGirlTimeManual'), p=document.getElementById('kmGirlPlace');
+      if(n)n.value=d.name||'';
+      if(dt)dt.value=d.date||'';
+      if(dm){
+        var x=(d.date||'').split('-');
+        dm.value=x.length===3?x[2]+'/'+x[1]+'/'+x[0]:'';
+      }
+      if(t)t.value=d.time||'';
+      if(tm)tm.value=d.time||'';
+      if(p)p.value=d.place||'';
+      var tf=document.getElementById('kmGirlTimeField');
+      if(tf&&d.time){
+        var q=d.time.split(':'),hh=parseInt(q[0],10),mm=q[1]||'00',ap=hh>=12?'PM':'AM';
+        hh=hh%12;if(hh===0)hh=12;
+        tf.textContent=hh+':'+mm+' '+ap;tf.classList.add('has-time');
+      }
+    }
+    g.classList.add('open'); g.style.display='flex'; document.body.style.overflow='hidden';
+  };
+
+  window.changeBoyDetails=function(){
+    closeReviewModal();
+    var b=document.getElementById('kmMilanModal');
+    if(!b)return;
+    var d=JSON.parse(localStorage.getItem('km-boy-details')||'null');
+    if(d){
+      var n=document.getElementById('kmBoyName'), dt=document.getElementById('kmBoyDate'), dm=document.getElementById('kmBoyDateManual');
+      var t=document.getElementById('kmBoyTime'), tm=document.getElementById('kmBoyTimeManual'), p=document.getElementById('kmBoyPlace');
+      if(n)n.value=d.name||'';
+      if(dt)dt.value=d.date||'';
+      if(dm){
+        var x=(d.date||'').split('-');
+        dm.value=x.length===3?x[2]+'/'+x[1]+'/'+x[0]:'';
+      }
+      if(t)t.value=d.time||'';
+      if(tm)tm.value=d.time||'';
+      if(p)p.value=d.place||'';
+    }
+    b.classList.add('open'); b.style.display='flex'; document.body.style.overflow='hidden';
+  }
+  window.confirmKundliDetails=function(){
+    closeReviewModal();
+    if(typeof toast==='function')toast('ऑर्डर सबमिट झाली.');
+  }
+  // Replace girl submit with validation + review screen.
+  window.submitGirlDetails=function(e){
+    e.preventDefault();
+    var d=document.getElementById('kmGirlDate'),m=document.getElementById('kmGirlDateManual');
+    if(!d.value)d.value=(function(v){var x=(v||'').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);if(!x)return null;var t=new Date(+x[3],+x[2]-1,+x[1]);return t.getFullYear()===+x[3]&&t.getMonth()===+x[2]-1&&t.getDate()===+x[1]?x[3]+'-'+x[2]+'-'+x[1]:null})(m.value)||'';
+    if(!d.value){m.reportValidity();return}
+    var t=document.getElementById('kmGirlTime').value||document.getElementById('kmGirlTimeManual').value;
+    if(!t){alert('कृपया जन्मवेळ टाका.');return}
+    var data={name:document.getElementById('kmGirlName').value.trim(),date:d.value,time:t,place:document.getElementById('kmGirlPlace').value.trim()};
+    if(!data.name||!data.place){alert('कृपया सर्व माहिती भरा.');return}
+    localStorage.setItem('km-girl-details',JSON.stringify(data));
+    var gm=document.getElementById('kmGirlModal');if(gm)gm.classList.remove('open');
+    openReviewModal();
+  }
+})();
+</script>
+
+
+
+<script id="km-v40-manual-date-js">
+document.addEventListener('DOMContentLoaded',function(){
+  var m=document.getElementById('kmBoyDateManual');
+  var n=document.getElementById('kmBoyDate');
+  if(!m||!n)return;
+
+  m.addEventListener('click',function(e){
+    /* Allow typing; only open calendar when the field is empty and the user taps it once. */
+  });
+
+  m.addEventListener('input',function(){
+    var x=m.value.replace(/\D/g,'').slice(0,8);
+    m.value=x.length>4 ? x.slice(0,2)+'/'+x.slice(2,4)+'/'+x.slice(4)
+           : x.length>2 ? x.slice(0,2)+'/'+x.slice(2)
+           : x;
+
+    var a=m.value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if(a){
+      var d=+a[1],mo=+a[2],y=+a[3],t=new Date(y,mo-1,d);
+      if(t.getFullYear()===y && t.getMonth()===mo-1 && t.getDate()===d){
+        n.value=y+'-'+String(mo).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+        m.setCustomValidity('');
+      }else{
+        n.value='';
+        m.setCustomValidity('कृपया योग्य जन्मतारीख DD/MM/YYYY मध्ये टाका.');
+      }
+    }else{
+      n.value='';
+      m.setCustomValidity('');
+    }
+  });
+
+  m.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){e.preventDefault();}
+  });
+});
+</script>
+<script id="km-v41-manual-date-only">
+document.addEventListener('DOMContentLoaded',function(){
+  var m=document.getElementById('kmBoyDateManual');
+  var n=document.getElementById('kmBoyDate');
+  if(!m||!n)return;
+  m.onclick=function(e){e.stopPropagation();};
+  m.addEventListener('input',function(){
+    var x=m.value.replace(/\D/g,'').slice(0,8);
+    m.value=x.length>4?x.slice(0,2)+'/'+x.slice(2,4)+'/'+x.slice(4):x.length>2?x.slice(0,2)+'/'+x.slice(2):x;
+    var a=m.value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if(a){
+      var d=+a[1],mo=+a[2],y=+a[3],t=new Date(y,mo-1,d);
+      if(t.getFullYear()===y&&t.getMonth()===mo-1&&t.getDate()===d){
+        n.value=y+'-'+String(mo).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+        m.setCustomValidity('');
+      }else{n.value='';m.setCustomValidity('कृपया योग्य जन्मतारीख DD/MM/YYYY मध्ये टाका.');}
+    }else{n.value='';m.setCustomValidity('');}
+  });
+});
+</script>
+<script id="km-v48-girl-x-to-boy">
+window.openBoyFromGirlClose=function(){
+  var girl=document.getElementById('kmGirlModal');
+  if(girl) girl.classList.remove('open');
+  var boy=document.getElementById('kmMilanModal');
+  if(boy){
+    boy.classList.add('open');
+    boy.style.display='flex';
+  }else if(typeof openBoyModal==='function'){
+    openBoyModal();
+  }
+  document.body.style.overflow='hidden';
+};
+</script>
+
+<script id="km-v55-girl-manual-date">
+document.addEventListener('DOMContentLoaded', function(){
+  var m = document.getElementById('kmGirlDateManual');
+  var n = document.getElementById('kmGirlDate');
+  if(!m || !n) return;
+
+  // मुलीचा जन्मदिनांक फक्त हाताने टाइप करायचा.
+  // उदा. 11111125 -> 11/11/1125
+  m.setAttribute('inputmode','numeric');
+  m.setAttribute('autocomplete','off');
+  m.setAttribute('maxlength','10');
+
+  m.addEventListener('input', function(){
+    var x = m.value.replace(/\D/g,'').slice(0,8);
+
+    if(x.length > 4){
+      m.value = x.slice(0,2) + '/' + x.slice(2,4) + '/' + x.slice(4);
+    }else if(x.length > 2){
+      m.value = x.slice(0,2) + '/' + x.slice(2);
+    }else{
+      m.value = x;
+    }
+
+    var a = m.value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if(!a){
+      n.value = '';
+      m.setCustomValidity('');
+      return;
+    }
+
+    var day = +a[1], month = +a[2], year = +a[3];
+    var d = new Date(year, month - 1, day);
+
+    if(d.getFullYear() === year && d.getMonth() === month - 1 && d.getDate() === day){
+      n.value = year + '-' + String(month).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+      m.setCustomValidity('');
+    }else{
+      n.value = '';
+      m.setCustomValidity('कृपया योग्य जन्मदिनांक टाका.');
+    }
+  });
+
+  // टाइप करताना कोणताही calendar/date picker उघडू नये.
+  m.addEventListener('click', function(e){ e.stopPropagation(); });
+});
+</script>
+
+
+<script id="km-v56-girl-time-same-as-boy">
+document.addEventListener('DOMContentLoaded', function(){
+  var girl = document.getElementById('kmGirlTime');
+  var girlManual = document.getElementById('kmGirlTimeManual');
+  if(!girl) return;
+
+  // मुलाच्या जन्मवेळच्या पॉपअपसारखाच native time picker.
+  girl.type = 'time';
+  girl.step = 60;
+
+  function format12(v){
+    if(!v) return '';
+    var p = v.split(':');
+    if(p.length < 2) return v;
+    var h = parseInt(p[0],10), mi = p[1];
+    var ap = h >= 12 ? 'PM' : 'AM';
+    h = h % 12;
+    if(h === 0) h = 12;
+    return h + ':' + mi + ' ' + ap;
+  }
+
+  function syncGirlTime(){
+    if(girlManual) girlManual.value = format12(girl.value);
+  }
+
+  girl.addEventListener('change', syncGirlTime);
+  girl.addEventListener('input', syncGirlTime);
+  syncGirlTime();
+});
+</script>
+
+
+<script id="km-v57-girl-time-sync">
+document.addEventListener('DOMContentLoaded', function(){
+  var t=document.getElementById('kmGirlTime');
+  var m=document.getElementById('kmGirlTimeManual');
+  if(!t || !m) return;
+  function sync(){ m.value=t.value||''; }
+  t.addEventListener('input',sync);
+  t.addEventListener('change',sync);
+  sync();
+});
+</script>
+
+
+<script id="km-v58-girl-next-fix">
+(function(){
+  function getGirlTimeValue(){
+    var t = document.getElementById('kmGirlTime');
+    var m = document.getElementById('kmGirlTimeManual');
+    return (t && t.value) || (m && m.value) || '';
+  }
+
+  window.submitGirlDetails = function(e){
+    if(e && e.preventDefault) e.preventDefault();
+
+    var name = (document.getElementById('kmGirlName') || {}).value || '';
+    var date = (document.getElementById('kmGirlDate') || {}).value || '';
+    var manualDate = (document.getElementById('kmGirlDateManual') || {}).value || '';
+    var time = getGirlTimeValue();
+    var place = (document.getElementById('kmGirlPlace') || {}).value || '';
+
+    // काही जुन्या validation मुळे edit केल्यानंतर button अडकू नये.
+    if(!name.trim()){
+      alert('कृपया मुलीचे नाव टाका.');
+      return false;
+    }
+    if(!date && manualDate){
+      var dm = manualDate.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if(dm) date = dm[3]+'-'+dm[2]+'-'+dm[1];
+    }
+    if(!date){
+      alert('कृपया मुलीचा जन्मदिनांक टाका.');
+      return false;
+    }
+    if(!time){
+      alert('कृपया मुलीची जन्मवेळ सेट करा.');
+      return false;
+    }
+    if(!place.trim()){
+      alert('कृपया मुलीचे जन्मस्थळ टाका.');
+      return false;
+    }
+
+    // वेळ 12-hour display साठी mirror करा.
+    var p = time.split(':');
+    var h = parseInt(p[0],10), min = p[1] || '00';
+    var ap = h >= 12 ? 'PM' : 'AM';
+    var hh = h % 12; if(hh === 0) hh = 12;
+    var displayTime = hh + ':' + min + ' ' + ap;
+    var tm = document.getElementById('kmGirlTimeManual');
+    if(tm) tm.value = displayTime;
+
+    localStorage.setItem('km-girl-details', JSON.stringify({
+      name:name.trim(),
+      date:date,
+      time:time,
+      timeDisplay:displayTime,
+      place:place.trim()
+    }));
+
+    var gm = document.getElementById('kmGirlModal');
+    if(gm) gm.classList.remove('open');
+    if(typeof window.openReviewModal === 'function'){
+      window.openReviewModal();
+    }else{
+      var rm = document.getElementById('kmReviewModal');
+      if(rm) rm.classList.add('open');
+    }
+    document.body.style.overflow='hidden';
+    return false;
+  };
+
+  // Edit केल्यानंतर girl popup उघडल्यावर fields पुन्हा योग्य प्रकारे भरावेत.
+  var originalChangeGirl = window.changeGirlDetails;
+  window.changeGirlDetails = function(){
+    var r=document.getElementById('kmReviewModal');
+    if(r) r.classList.remove('open');
+    var d={};
+    try{ d=JSON.parse(localStorage.getItem('km-girl-details')||'{}'); }catch(_){}
+    var n=document.getElementById('kmGirlName');
+    var dm=document.getElementById('kmGirlDateManual');
+    var dh=document.getElementById('kmGirlDate');
+    var t=document.getElementById('kmGirlTime');
+    var tm=document.getElementById('kmGirlTimeManual');
+    var p=document.getElementById('kmGirlPlace');
+    if(n) n.value=d.name||'';
+    if(dh) dh.value=d.date||'';
+    if(dm && d.date){
+      var a=d.date.split('-');
+      dm.value=a.length===3 ? a[2]+'/'+a[1]+'/'+a[0] : (d.date||'');
+    }
+    if(t) t.value=d.time||'';
+    if(tm) tm.value=d.timeDisplay||'';
+    if(p) p.value=d.place||'';
+    var gm=document.getElementById('kmGirlModal');
+    if(gm) gm.classList.add('open');
+    document.body.style.overflow='hidden';
+  };
+})();
+</script>
+
+
+<style id="km-engine-v1">
+.km-engine-suggest{position:absolute;left:0;right:0;top:calc(100% + 5px);z-index:1000005;background:var(--card,#fff);border:1px solid var(--line,#ddd);border-radius:14px;box-shadow:0 14px 35px rgba(0,0,0,.18);overflow:hidden}
+.km-engine-option{padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--line,#eee)}
+.km-engine-option:last-child{border-bottom:0}
+.km-engine-option:hover{background:var(--soft,#f5f2ed)}
+.km-engine-main{font-weight:700}
+.km-engine-sub{font-size:12px;color:var(--muted,#777);margin-top:3px}
+.km-engine-busy{opacity:.65;pointer-events:none}
+</style>
+<script id="km-engine-v1-js">
+(function(){
+  const API_BASE = ''; // same-origin when served by FastAPI
+  const placeState = {boy:null, girl:null};
+
+  function addBox(input, type){
+    if(!input) return null;
+    const parent=input.parentElement;
+    if(parent && getComputedStyle(parent).position==='static') parent.style.position='relative';
+    let box=document.getElementById(type==='boy'?'kmBoyPlaceEngineSuggest':'kmGirlPlaceEngineSuggest');
+    if(!box){
+      box=document.createElement('div');
+      box.id=type==='boy'?'kmBoyPlaceEngineSuggest':'kmGirlPlaceEngineSuggest';
+      box.className='km-engine-suggest';
+      box.style.display='none';
+      input.parentElement.appendChild(box);
+    }
+    return box;
+  }
+  function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+  async function searchPlace(input,type){
+    const q=input.value.trim();
+    const box=addBox(input,type);
+    if(q.length<3){box.style.display='none';return;}
+    box.innerHTML='<div class="km-engine-option">शोधत आहे…</div>';
+    box.style.display='block';
+    try{
+      const r=await fetch(API_BASE+'/api/geocode?q='+encodeURIComponent(q));
+      const data=await r.json();
+      if(!Array.isArray(data)||!data.length){box.innerHTML='<div class="km-engine-option">ठिकाण सापडले नाही.</div>';return;}
+      box.innerHTML='';
+      data.forEach(x=>{
+        const row=document.createElement('div');
+        row.className='km-engine-option';
+        row.innerHTML='<div class="km-engine-main">'+esc(x.name||x.display_name)+'</div><div class="km-engine-sub">'+esc(x.secondary||x.display_name)+'</div>';
+        row.addEventListener('click',()=>{
+          input.value=x.name||x.display_name;
+          placeState[type]=x;
+          localStorage.setItem('km-'+type+'-place',JSON.stringify(x));
+          box.style.display='none';
+        });
+        box.appendChild(row);
+      });
+    }catch(e){
+      box.innerHTML='<div class="km-engine-option">ऑनलाइन ठिकाण शोध सेवा उपलब्ध नाही.</div>';
+    }
+  }
+  function wire(inputId,type){
+    const input=document.getElementById(inputId);
+    if(!input) return;
+    let timer;
+    input.addEventListener('input',()=>{
+      placeState[type]=null;
+      clearTimeout(timer);
+      timer=setTimeout(()=>searchPlace(input,type),300);
+    });
+    input.addEventListener('focus',()=>{
+      const saved=localStorage.getItem('km-'+type+'-place');
+      if(saved && input.value){try{placeState[type]=JSON.parse(saved)}catch(e){}}
+    });
+    document.addEventListener('click',e=>{
+      const box=document.getElementById(type==='boy'?'kmBoyPlaceEngineSuggest':'kmGirlPlaceEngineSuggest');
+      if(box && !box.contains(e.target) && e.target!==input) box.style.display='none';
+    });
+  }
+  function selected(type){
+    if(placeState[type]) return placeState[type];
+    try{return JSON.parse(localStorage.getItem('km-'+type+'-place')||'null')}catch(e){return null}
+  }
+  function mergePlace(key,type){
+    const p=selected(type);
+    if(!p) return;
+    try{
+      const d=JSON.parse(localStorage.getItem(key)||'{}');
+      d.place=p.name||d.place;
+      d.place_display=p.display_name||d.place;
+      d.latitude=Number(p.latitude);
+      d.longitude=Number(p.longitude);
+      d.timezone='Asia/Kolkata';
+      localStorage.setItem(key,JSON.stringify(d));
+    }catch(e){}
+  }
+
+  // Wrap existing submit handlers so exact coordinates are required before saving.
+  const oldBoy=window.submitBoyDetails;
+  window.submitBoyDetails=function(e){
+    const p=selected('boy');
+    if(!p){e&&e.preventDefault();alert('कृपया जन्मस्थळाच्या यादीतून एक ठिकाण निवडा.');return false;}
+    const r=oldBoy?oldBoy(e):false;
+    setTimeout(()=>mergePlace('km-boy-details','boy'),0);
+    return r;
+  };
+  const oldGirl=window.submitGirlDetails;
+  window.submitGirlDetails=function(e){
+    const p=selected('girl');
+    if(!p){e&&e.preventDefault();alert('कृपया जन्मस्थळाच्या यादीतून एक ठिकाण निवडा.');return false;}
+    const r=oldGirl?oldGirl(e):false;
+    setTimeout(()=>mergePlace('km-girl-details','girl'),0);
+    return r;
+  };
+
+  // Final review button -> backend calculation -> PDF. No extra report page is inserted.
+  window.confirmKundliDetails=async function(){
+    const boy=JSON.parse(localStorage.getItem('km-boy-details')||'null');
+    const girl=JSON.parse(localStorage.getItem('km-girl-details')||'null');
+    if(!boy||!girl){alert('जन्ममाहिती अपूर्ण आहे.');return;}
+    if(!Number.isFinite(Number(boy.latitude))||!Number.isFinite(Number(boy.longitude))||
+       !Number.isFinite(Number(girl.latitude))||!Number.isFinite(Number(girl.longitude))){
+      alert('दोन्ही जन्मस्थळांची अचूक coordinates माहिती उपलब्ध नाही. जन्मस्थळ यादीतून पुन्हा निवडा.');
+      return;
+    }
+    try{
+      const r=await fetch(API_BASE+'/api/report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({boy,girl})});
+      if(!r.ok){const t=await r.text();throw new Error(t||'Report error');}
+      const blob=await r.blob();
+      const url=URL.createObjectURL(blob);
+      window.open(url,'_blank');
+      if(typeof closeReviewModal==='function') closeReviewModal();
+      if(typeof toast==='function') toast('कुंडली मेलन PDF तयार आहे.');
+      setTimeout(()=>URL.revokeObjectURL(url),60000);
+    }catch(err){
+      console.error(err);
+      alert('रिपोर्ट तयार करताना त्रुटी आली. Backend सुरू आहे का ते तपासा.');
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    wire('kmBoyPlace','boy');
+    wire('kmGirlPlace','girl');
+  });
+})();
+</script>
+
+</body></html>
