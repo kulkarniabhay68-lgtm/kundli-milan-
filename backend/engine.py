@@ -116,3 +116,20 @@ def calculate_chart(person: dict) -> dict:
         "lagna_lord": SIGN_LORDS[asc_sign - 1],
         "sun_rashi": bodies["सूर्य"]["rashi"]
     }
+    def calculate_match(payload: dict) -> dict:
+    boy = calculate_chart(payload["boy"])
+    girl = calculate_chart(payload["girl"])
+
+    return {
+        "settings": {
+            "zodiac": "Sidereal / Nirayana",
+            "ayanamsha": "Lahiri / Chitrapaksha",
+            "engine": "Swiss Ephemeris"
+        },
+        "boy": boy,
+        "girl": girl,
+        "match": {
+            "status": "calculated",
+            "note": "कुंडली तयार झाली आहे. अष्टकूट गुणमेलनाची पूर्ण गणना अद्याप जोडलेली नाही."
+        }
+    }
