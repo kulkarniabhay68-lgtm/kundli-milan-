@@ -1,4 +1,3 @@
-
 from __future__ import annotations
 
 import io
@@ -21,7 +20,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 
 
 # ==================================================
-# 1. FONT SETTINGS
+# 1. FONT SETTINGS (डिबगिंगसह)
 # ==================================================
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,6 +32,14 @@ BOLD = os.path.join(
     ROOT, "fonts", "NotoSansDevanagari-Bold.ttf"
 )
 
+# डिबगिंगसाठी फॉन्टची स्थिती तपासत आहे
+print("--- FONT DEBUG INFO ---")
+print("ROOT:", ROOT)
+print("Regular font path:", FONT)
+print("Regular font exists:", os.path.exists(FONT))
+print("Bold font path:", BOLD)
+print("Bold font exists:", os.path.exists(BOLD))
+
 if os.path.exists(FONT) and "Deva" not in pdfmetrics.getRegisteredFontNames():
     pdfmetrics.registerFont(TTFont("Deva", FONT))
 
@@ -41,6 +48,10 @@ if os.path.exists(BOLD) and "DevaBold" not in pdfmetrics.getRegisteredFontNames(
 
 BASE_FONT = "Deva" if os.path.exists(FONT) else "Helvetica"
 BOLD_FONT = "DevaBold" if os.path.exists(BOLD) else "Helvetica-Bold"
+
+print("Base font selected:", BASE_FONT)
+print("Bold font selected:", BOLD_FONT)
+print("-----------------------")
 
 
 # ==================================================
@@ -297,145 +308,4 @@ def build_pdf(result: dict) -> bytes:
             item.get("bride_varna")
             or item.get("bride_group")
             or item.get("bride_tara")
-            or item.get("bride_yoni")
-            or item.get("bride_lord")
-            or item.get("bride_gana")
-            or item.get("bride_nadi")
-            or item.get("bride_sign_no")
-            or "-"
-        )
-
-        score = item.get("score", 0)
-        max_score = item.get("max_score", 0)
-
-        score_rows.append([
-            koota_name,
-            safe_text(groom_value),
-            safe_text(bride_value),
-            f"{float(score):g}",
-            f"{float(max_score):g}",
-        ])
-
-    total_score = float(result.get("total_score", 0))
-    max_score = float(result.get("max_score", 36))
-
-    score_rows.append([
-        "एकूण",
-        "-",
-        "-",
-        f"{total_score:g}",
-        f"{max_score:g}",
-    ])
-
-    story.append(make_table(
-        score_rows,
-        [34 * mm, 39 * mm, 39 * mm, 30 * mm, 25 * mm],
-    ))
-
-    story.append(Spacer(1, 4 * mm))
-
-    story.append(Paragraph(
-        f"एकूण गुण: {total_score:g} / {max_score:g}",
-        styles["SectionHeading"],
-    ))
-
-    story.append(Paragraph(
-        (
-            "सध्याच्या गुणनियमांनुसार १८ किंवा अधिक गुण मिळाले आहेत."
-            if result.get("is_suitable_by_score_only")
-            else "सध्याच्या गुणनियमांनुसार १८ पेक्षा कमी गुण मिळाले आहेत."
-        ),
-        styles["ReportBody"],
-    ))
-
-    # ------------------------------
-    # DOSHA INDICATORS
-    # ------------------------------
-
-    story.append(Paragraph(
-        "३. गुणमेलनातील निरीक्षणे",
-        styles["SectionHeading"],
-    ))
-
-    nadi_item = next(
-        (item for item in kootas if item.get("koota") == "नाडी"),
-        None,
-    )
-
-    bhakoot_item = next(
-        (item for item in kootas if item.get("koota") == "भकूट"),
-        None,
-    )
-
-    observations = []
-
-    if nadi_item:
-        if nadi_item.get("nadi_dosha_indicated"):
-            observations.append(
-                "दोघांची नाडी समान असल्याचे गणनेत दिसते. "
-                "पारंपरिक नियम व परिहार स्वतंत्रपणे तपासणे आवश्यक आहे."
-            )
-        else:
-            observations.append(
-                "या गणनेनुसार दोघांची नाडी समान नाही."
-            )
-
-    if bhakoot_item:
-        if bhakoot_item.get("unfavorable_pair"):
-            observations.append(
-                "भकूटातील प्रतिकूल जोडी दर्शवली आहे. "
-                "परिहाराचे नियम स्वतंत्रपणे तपासणे आवश्यक आहे."
-            )
-        else:
-            observations.append(
-                "वापरलेल्या मूलभूत नियमांनुसार भकूट दोष दर्शवलेला नाही."
-            )
-
-    if not observations:
-        observations.append(
-            "दोषविषयक निरीक्षणांसाठी पुरेशी माहिती उपलब्ध नाही."
-        )
-
-    for note in observations:
-        story.append(Paragraph("• " + note, styles["ReportBody"]))
-
-    # ------------------------------
-    # WARNINGS
-    # ------------------------------
-
-    story.append(Paragraph(
-        "४. महत्त्वाच्या सूचना",
-        styles["SectionHeading"],
-    ))
-
-    warnings = result.get("warnings", [])
-
-    if not warnings:
-        warnings = [
-            "गुणतक्ते आणि नक्षत्र-वर्गीकरण प्रमाणित स्रोताशी पडताळा.",
-            "गुणांवरूनच विवाहाचा अंतिम निर्णय घेऊ नये.",
-        ]
-
-    for warning in warnings:
-        story.append(Paragraph(
-            "• " + safe_text(warning),
-            styles["ReportBody"],
-        ))
-
-    story.append(Spacer(1, 5 * mm))
-
-    story.append(Paragraph(
-        "हा अहवाल सॉफ्टवेअरने दिलेल्या गणनेवर आधारित आहे. "
-        "लग्नकुंडली, मंगळदोष आणि इतर ग्रहस्थितींचे स्वतंत्र "
-        "विश्लेषण या अहवालात समाविष्ट नाही.",
-        styles["ReportBody"],
-    ))
-
-    doc.build(story)
-
-    return buffer.getvalue()
-
-
-def generate_report(result: dict) -> bytes:
-    """FastAPI साठी PDF bytes परत करते."""
-    return build_pdf(result)
+            or
