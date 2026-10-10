@@ -1,25 +1,30 @@
+
 from __future__ import annotations
 
 import io
 import os
 
-from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import mm
 from reportlab.platypus import (
     SimpleDocTemplate,
     Paragraph,
     Spacer,
     Table,
     TableStyle,
-    PageBreak,
 )
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.lib.units import mm
 
-ROOT = os.path.dirname(os.path.dirname(__file__))
+
+# ==================================================
+# 1. FONT SETTINGS
+# ==================================================
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 FONT = os.path.join(
     ROOT, "fonts", "NotoSansDevanagari-Regular.ttf"
@@ -28,320 +33,409 @@ BOLD = os.path.join(
     ROOT, "fonts", "NotoSansDevanagari-Bold.ttf"
 )
 
-if os.path.exists(FONT):
+if os.path.exists(FONT) and "Deva" not in pdfmetrics.getRegisteredFontNames():
     pdfmetrics.registerFont(TTFont("Deva", FONT))
 
-if os.path.exists(BOLD):
+if os.path.exists(BOLD) and "DevaBold" not in pdfmetrics.getRegisteredFontNames():
     pdfmetrics.registerFont(TTFont("DevaBold", BOLD))
 
 BASE_FONT = "Deva" if os.path.exists(FONT) else "Helvetica"
 BOLD_FONT = "DevaBold" if os.path.exists(BOLD) else "Helvetica-Bold"
 
-PABBR = {
-    "सूर्य": "रवि",
-    "चंद्र": "चं",
-    "मंगळ": "मं",
-    "बुध": "बु",
-    "गुरु": "गु",
-    "शुक्र": "शु",
-    "शनि": "श",
-    "राहू": "रा",
-    "केतू": "के",
+
+# ==================================================
+# 2. HELPER FUNCTIONS
+# ==================================================
+
+SIGN_NAMES = {
+    1: "मेष", 2: "वृषभ", 3: "मिथुन", 4: "कर्क",
+    5: "सिंह", 6: "कन्या", 7: "तुला", 8: "वृश्चिक",
+    9: "धनु", 10: "मकर", 11: "कुंभ", 12: "मीन",
 }
+
+NAKSHATRA_NAMES = [
+    "अश्विनी", "भरणी", "कृत्तिका", "रोहिणी", "मृगशीर्ष",
+    "आर्द्रा", "पुनर्वसू", "पुष्य", "आश्लेषा", "मघा",
+    "पूर्वा फाल्गुनी", "उत्तरा फाल्गुनी", "हस्त", "चित्रा",
+    "स्वाती", "विशाखा", "अनुराधा", "ज्येष्ठा", "मूळ",
+    "पूर्वाषाढा", "उत्तराषाढा", "श्रवण", "धनिष्ठा",
+    "शततारका", "पूर्वाभाद्रपदा", "उत्तराभाद्रपदा", "रेवती",
+]
 
 
 def fmt_date(value):
-    year, month, day = value.split("-")
-    return f"{day}/{month}/{year}"
+    if not value:
+        return "-"
+    try:
+        year, month, day = str(value).split("-")
+        return f"{day}/{month}/{year}"
+    except (ValueError, AttributeError):
+        return str(value)
 
 
-def chart_grid(chart):
-    houses = [[] for _ in range(12)]
-    asc = chart["lagna"]["sign_no"]
+def safe_text(value):
+    if value is None or value == "":
+        return "-"
+    return str(value)
 
-    for name, body in chart["bodies"].items():
-        house = ((body["sign_no"] - asc) % 12) + 1
-        houses[house - 1].append(PABBR.get(name, name))
 
-    positions = {
-        0: (1, 0),
-        1: (0, 0),
-        2: (0, 1),
-        3: (0, 2),
-        4: (0, 3),
-        5: (1, 3),
-        6: (2, 3),
-        7: (3, 3),
-        8: (3, 2),
-        9: (3, 1),
-        10: (3, 0),
-        11: (2, 0),
-    }
+def sign_name(sign_no):
+    try:
+        return SIGN_NAMES.get(int(sign_no), "-")
+    except (TypeError, ValueError):
+        return "-"
 
-    data = [[""] * 4 for _ in range(4)]
 
-    for house, (row, col) in positions.items():
-        sign = ((asc + house - 1) % 12) + 1
-        data[row][col] = f"{sign}\n" + " ".join(houses[house])
+def nakshatra_name(nakshatra_no):
+    try:
+        number = int(nakshatra_no)
+        if 1 <= number <= 27:
+            return NAKSHATRA_NAMES[number - 1]
+    except (TypeError, ValueError):
+        pass
+    return "-"
 
-    for row in range(4):
-        for col in range(4):
-            if (row, col) in {
-                (1, 1), (1, 2), (2, 1), (2, 2)
-            }:
-                data[row][col] = ""
 
+def make_styles():
+    styles = getSampleStyleSheet()
+
+    styles.add(ParagraphStyle(
+        name="ReportTitle",
+        fontName=BOLD_FONT,
+        fontSize=18,
+        leading=25,
+        alignment=TA_CENTER,
+        textColor=colors.HexColor("#744210"),
+        spaceAfter=8 * mm,
+    ))
+
+    styles.add(ParagraphStyle(
+        name="SectionHeading",
+        fontName=BOLD_FONT,
+        fontSize=12,
+        leading=17,
+        spaceBefore=5 * mm,
+        spaceAfter=3 * mm,
+        textColor=colors.HexColor("#744210"),
+    ))
+
+    styles.add(ParagraphStyle(
+        name="ReportBody",
+        fontName=BASE_FONT,
+        fontSize=9,
+        leading=14,
+    ))
+
+    return styles
+
+
+def make_table(data, widths, header=True):
     table = Table(
         data,
-        colWidths=[23 * mm] * 4,
-        rowHeights=[18 * mm] * 4,
+        colWidths=widths,
+        repeatRows=1 if header else 0,
+        hAlign="LEFT",
     )
-    table.setStyle(TableStyle([
+
+    commands = [
         ("FONTNAME", (0, 0), (-1, -1), BASE_FONT),
-        ("FONTSIZE", (0, 0), (-1, -1), 7),
-        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("GRID", (0, 0), (-1, -1), 0.6, colors.HexColor("#9b7a39")),
-        ("BOX", (0, 0), (-1, -1), 1, colors.HexColor("#9b7a39")),
-    ]))
+        ("FONTSIZE", (0, 0), (-1, -1), 8),
+        ("LEADING", (0, 0), (-1, -1), 11),
+        ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#cbbd9b")),
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 5),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 5),
+        ("TOPPADDING", (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+    ]
+
+    if header:
+        commands.extend([
+            ("FONTNAME", (0, 0), (-1, 0), BOLD_FONT),
+            ("BACKGROUND", (0, 0), (-1, 0),
+             colors.HexColor("#f6e8bd")),
+        ])
+
+    table.setStyle(TableStyle(commands))
     return table
 
 
+# ==================================================
+# 3. PDF GENERATOR
+# ==================================================
+
 def build_pdf(result: dict) -> bytes:
+    """
+    सध्याच्या engine.py च्या response स्वरूपातून PDF तयार करते.
+    अपेक्षित fields: kootas, total_score, max_score,
+    birth_details आणि warnings.
+    """
+
+    if not isinstance(result, dict):
+        raise ValueError("रिपोर्टसाठी निकाल dictionary स्वरूपात हवा.")
+
+    birth_details = result.get("birth_details", {})
+    boy = birth_details.get("groom", {})
+    girl = birth_details.get("bride", {})
+    kootas = result.get("kootas", [])
+
+    if not kootas:
+        raise ValueError(
+            "निकालात kootas उपलब्ध नाहीत. आधी गुणमेलनाची गणना करा."
+        )
+
     buffer = io.BytesIO()
 
     doc = SimpleDocTemplate(
         buffer,
         pagesize=A4,
-        rightMargin=12 * mm,
-        leftMargin=12 * mm,
-        topMargin=12 * mm,
-        bottomMargin=12 * mm,
+        rightMargin=14 * mm,
+        leftMargin=14 * mm,
+        topMargin=14 * mm,
+        bottomMargin=14 * mm,
+        title="कुंडली मिलन अहवाल",
+        author="Kundli Milan",
     )
 
-    styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(
-        name="DevaTitle",
-        fontName=BOLD_FONT,
-        fontSize=18,
-        leading=23,
-        alignment=TA_CENTER,
-    ))
-    styles.add(ParagraphStyle(
-        name="DevaH",
-        fontName=BOLD_FONT,
-        fontSize=12,
-        leading=16,
-        spaceBefore=6,
-        spaceAfter=5,
-    ))
-    styles.add(ParagraphStyle(
-        name="Deva",
-        fontName=BASE_FONT,
-        fontSize=8.5,
-        leading=13,
-    ))
-
+    styles = make_styles()
     story = []
-    boy = result["boy"]
-    girl = result["girl"]
 
-    story += [
-        Paragraph("कुंडली मिलन अहवाल", styles["DevaTitle"]),
-        Spacer(1, 5 * mm),
-    ]
+    # ------------------------------
+    # TITLE
+    # ------------------------------
 
-    info = [
-        ["वर", boy["name"], "वधू", girl["name"]],
-        [
-            "जन्म",
-            fmt_date(boy["date"]) + " " + boy["time"],
-            "जन्म",
-            fmt_date(girl["date"]) + " " + girl["time"],
-        ],
-        [
-            "जन्मस्थळ",
-            boy.get("place_display", boy.get("place", "")),
-            "जन्मस्थळ",
-            girl.get("place_display", girl.get("place", "")),
-        ],
-        [
-            "अक्षांश / रेखांश",
-            f'{boy["latitude"]:.4f}, {boy["longitude"]:.4f}',
-            "अक्षांश / रेखांश",
-            f'{girl["latitude"]:.4f}, {girl["longitude"]:.4f}',
-        ],
-        ["चंद्रराशी", boy["moon_rashi"], "चंद्रराशी", girl["moon_rashi"]],
-        [
-            "नक्षत्र / चरण",
-            f'{boy["nakshatra"]} ({boy["pada"]})',
-            "नक्षत्र / चरण",
-            f'{girl["nakshatra"]} ({girl["pada"]})',
-        ],
-        [
-            "लग्नराशी",
-            boy["lagna"]["rashi"],
-            "लग्नराशी",
-            girl["lagna"]["rashi"],
-        ],
-        [
-            "नाडी / गण / योनि",
-            f'{boy["nadi"]} / {boy["gana"]} / {boy["yoni"]}',
-            "नाडी / गण / योनि",
-            f'{girl["nadi"]} / {girl["gana"]} / {girl["yoni"]}',
-        ],
-    ]
-
-    table = Table(
-        info,
-        colWidths=[28 * mm, 62 * mm, 28 * mm, 62 * mm],
-    )
-    table.setStyle(TableStyle([
-        ("FONTNAME", (0, 0), (-1, -1), BASE_FONT),
-        ("FONTNAME", (0, 0), (0, -1), BOLD_FONT),
-        ("FONTNAME", (2, 0), (2, -1), BOLD_FONT),
-        ("FONTSIZE", (0, 0), (-1, -1), 7.5),
-        ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("GRID", (0, 0), (-1, -1), 0.35, colors.HexColor("#cbbd9b")),
-        ("BACKGROUND", (0, 0), (-1, -1), colors.HexColor("#fffaf0")),
-    ]))
-
-    story += [
-        table,
-        Spacer(1, 5 * mm),
-        Paragraph("लग्न कुंडल्या", styles["DevaH"]),
-    ]
-
-    charts = Table(
-        [[
-            [Paragraph("वर", styles["DevaH"]), chart_grid(boy)],
-            [Paragraph("वधू", styles["DevaH"]), chart_grid(girl)],
-        ]],
-        colWidths=[91 * mm, 91 * mm],
-    )
-    charts.setStyle(TableStyle([
-        ("VALIGN", (0, 0), (-1, -1), "TOP"),
-    ]))
-
-    story += [charts, PageBreak()]
-    story.append(Paragraph("गुणमेलन — अष्टकूट", styles["DevaH"]))
-
-    match = result["match"]
-    rows = [["कूट", "कमाल", "मिळाले"]]
-
-    for item in match["kootas"]:
-        score = item["score"]
-        if isinstance(score, float):
-            score = f"{score:g}"
-        rows.append([item["name"], str(item["max"]), str(score)])
-
-    rows.append([
-        "अष्टकूट एकूण",
-        "36",
-        f'{match["ashtakoot_total"]:g}',
-    ])
-    rows.append([
-        "सत्कूट (तात्पुरती reference गणना)",
-        "3",
-        str(match["satkoot_bonus_provisional"]),
-    ])
-    rows.append([
-        "संदर्भ एकूण",
-        "—",
-        f'{match["reference_total_provisional"]:g}',
-    ])
-
-    koot_table = Table(
-        rows,
-        colWidths=[100 * mm, 30 * mm, 35 * mm],
-    )
-    koot_table.setStyle(TableStyle([
-        ("FONTNAME", (0, 0), (-1, -1), BASE_FONT),
-        ("FONTNAME", (0, 0), (-1, 0), BOLD_FONT),
-        ("FONTNAME", (0, -3), (-1, -1), BOLD_FONT),
-        ("FONTSIZE", (0, 0), (-1, -1), 8.5),
-        ("ALIGN", (1, 1), (-1, -1), "CENTER"),
-        ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#bfa56b")),
-        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#f6e8bd")),
-    ]))
-
-    story += [koot_table, Spacer(1, 5 * mm)]
-
-    notes = []
-    if match["bhakoot_dosha"]:
-        notes.append("राशी-कूट दोष नोंदला आहे.")
-    if match["nadi_dosha"]:
-        notes.append("नाडी दोष नोंदला आहे.")
-    if match["nadi_pada_vedha"]:
-        notes.append("नाडी पादवेध नोंदला आहे.")
-    if not notes:
-        notes.append("अष्टकूटातील नाडी व राशी-कूटामध्ये दोष नोंदलेला नाही.")
+    story.append(Paragraph("कुंडली मिलन अहवाल", styles["ReportTitle"]))
 
     story.append(Paragraph(
-        "गुणमेलन निरीक्षण: " + " ".join(notes),
-        styles["Deva"],
+        "जन्ममाहिती आणि अष्टकूट गुणमेलन",
+        styles["ReportBody"],
+    ))
+    story.append(Spacer(1, 4 * mm))
+
+    # ------------------------------
+    # BIRTH DETAILS
+    # ------------------------------
+
+    story.append(Paragraph("१. जन्ममाहिती", styles["SectionHeading"]))
+
+    birth_rows = [
+        ["तपशील", "वर", "वधू"],
+        [
+            "जन्मतारीख",
+            fmt_date(boy.get("birth_date")),
+            fmt_date(girl.get("birth_date")),
+        ],
+        [
+            "जन्मवेळ",
+            safe_text(boy.get("birth_time")),
+            safe_text(girl.get("birth_time")),
+        ],
+        [
+            "जन्मस्थळ",
+            safe_text(boy.get("birth_place")),
+            safe_text(girl.get("birth_place")),
+        ],
+        [
+            "टाइमझोन",
+            safe_text(boy.get("timezone")),
+            safe_text(girl.get("timezone")),
+        ],
+        [
+            "अक्षांश",
+            safe_text(boy.get("latitude")),
+            safe_text(girl.get("latitude")),
+        ],
+        [
+            "रेखांश",
+            safe_text(boy.get("longitude")),
+            safe_text(girl.get("longitude")),
+        ],
+        [
+            "चंद्रराशी",
+            sign_name(boy.get("sign_no")),
+            sign_name(girl.get("sign_no")),
+        ],
+        [
+            "नक्षत्र",
+            nakshatra_name(boy.get("nakshatra_no")),
+            nakshatra_name(girl.get("nakshatra_no")),
+        ],
+    ]
+
+    story.append(make_table(
+        birth_rows,
+        [42 * mm, 65 * mm, 65 * mm],
     ))
 
-    story.append(Paragraph("मंगळ दोष", styles["DevaH"]))
-    mangal = result["mangal"]
+    # ------------------------------
+    # ASHTAKOOTA MATCHING
+    # ------------------------------
 
-    mangal_rows = [
-        ["", "वर", "वधू"],
-        [
-            "लग्नापासून",
-            str(mangal["boy"]["houses"]["lagna"]),
-            str(mangal["girl"]["houses"]["lagna"]),
-        ],
-        [
-            "चंद्रापासून",
-            str(mangal["boy"]["houses"]["moon"]),
-            str(mangal["girl"]["houses"]["moon"]),
-        ],
-        [
-            "शुक्रापासून",
-            str(mangal["boy"]["houses"]["venus"]),
-            str(mangal["girl"]["houses"]["venus"]),
-        ],
-        [
-            "मंगळदोष",
-            "होय" if mangal["boy"]["manglik"] else "नाही",
-            "होय" if mangal["girl"]["manglik"] else "नाही",
-        ],
-    ]
+    story.append(Paragraph(
+        "२. अष्टकूट गुणमेलन",
+        styles["SectionHeading"],
+    ))
 
-    mangal_table = Table(
-        mangal_rows,
-        colWidths=[60 * mm, 45 * mm, 45 * mm],
-    )
-    mangal_table.setStyle(TableStyle([
-        ("FONTNAME", (0, 0), (-1, -1), BASE_FONT),
-        ("FONTNAME", (0, 0), (-1, 0), BOLD_FONT),
-        ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#bfa56b")),
-        ("ALIGN", (1, 1), (-1, -1), "CENTER"),
-    ]))
+    score_rows = [["कूट", "वराची माहिती", "वधूची माहिती", "मिळालेले गुण", "कमाल गुण"]]
 
-    story += [
-        mangal_table,
-        Spacer(1, 5 * mm),
-        Paragraph("ग्रहमेलन — गणितावर आधारित निरीक्षण", styles["DevaH"]),
-    ]
+    for item in kootas:
+        koota_name = safe_text(item.get("koota"))
 
-    for note in result.get("graha_milan_notes", []):
-        story.append(Paragraph("• " + note, styles["Deva"]))
+        groom_value = (
+            item.get("groom_varna")
+            or item.get("groom_group")
+            or item.get("groom_tara")
+            or item.get("groom_yoni")
+            or item.get("groom_lord")
+            or item.get("groom_gana")
+            or item.get("groom_nadi")
+            or item.get("groom_sign_no")
+            or "-"
+        )
 
-    story += [
-        Spacer(1, 3 * mm),
-        Paragraph(
-            "टीप: ग्रहमेलनातील निरीक्षणे गणनेवर आधारित आहेत. "
-            "सत्कूटाचे 3 गुण येथे provisional reference म्हणून स्वतंत्र दाखवले आहेत.",
-            styles["Deva"],
+        bride_value = (
+            item.get("bride_varna")
+            or item.get("bride_group")
+            or item.get("bride_tara")
+            or item.get("bride_yoni")
+            or item.get("bride_lord")
+            or item.get("bride_gana")
+            or item.get("bride_nadi")
+            or item.get("bride_sign_no")
+            or "-"
+        )
+
+        score = item.get("score", 0)
+        max_score = item.get("max_score", 0)
+
+        score_rows.append([
+            koota_name,
+            safe_text(groom_value),
+            safe_text(bride_value),
+            f"{float(score):g}",
+            f"{float(max_score):g}",
+        ])
+
+    total_score = float(result.get("total_score", 0))
+    max_score = float(result.get("max_score", 36))
+
+    score_rows.append([
+        "एकूण",
+        "-",
+        "-",
+        f"{total_score:g}",
+        f"{max_score:g}",
+    ])
+
+    story.append(make_table(
+        score_rows,
+        [34 * mm, 39 * mm, 39 * mm, 30 * mm, 25 * mm],
+    ))
+
+    story.append(Spacer(1, 4 * mm))
+
+    story.append(Paragraph(
+        f"एकूण गुण: {total_score:g} / {max_score:g}",
+        styles["SectionHeading"],
+    ))
+
+    story.append(Paragraph(
+        (
+            "सध्याच्या गुणनियमांनुसार १८ किंवा अधिक गुण मिळाले आहेत."
+            if result.get("is_suitable_by_score_only")
+            else "सध्याच्या गुणनियमांनुसार १८ पेक्षा कमी गुण मिळाले आहेत."
         ),
-    ]
+        styles["ReportBody"],
+    ))
+
+    # ------------------------------
+    # DOSHA INDICATORS
+    # ------------------------------
+
+    story.append(Paragraph(
+        "३. गुणमेलनातील निरीक्षणे",
+        styles["SectionHeading"],
+    ))
+
+    nadi_item = next(
+        (item for item in kootas if item.get("koota") == "नाडी"),
+        None,
+    )
+
+    bhakoot_item = next(
+        (item for item in kootas if item.get("koota") == "भकूट"),
+        None,
+    )
+
+    observations = []
+
+    if nadi_item:
+        if nadi_item.get("nadi_dosha_indicated"):
+            observations.append(
+                "दोघांची नाडी समान असल्याचे गणनेत दिसते. "
+                "पारंपरिक नियम व परिहार स्वतंत्रपणे तपासणे आवश्यक आहे."
+            )
+        else:
+            observations.append(
+                "या गणनेनुसार दोघांची नाडी समान नाही."
+            )
+
+    if bhakoot_item:
+        if bhakoot_item.get("unfavorable_pair"):
+            observations.append(
+                "भकूटातील प्रतिकूल जोडी दर्शवली आहे. "
+                "परिहाराचे नियम स्वतंत्रपणे तपासणे आवश्यक आहे."
+            )
+        else:
+            observations.append(
+                "वापरलेल्या मूलभूत नियमांनुसार भकूट दोष दर्शवलेला नाही."
+            )
+
+    if not observations:
+        observations.append(
+            "दोषविषयक निरीक्षणांसाठी पुरेशी माहिती उपलब्ध नाही."
+        )
+
+    for note in observations:
+        story.append(Paragraph("• " + note, styles["ReportBody"]))
+
+    # ------------------------------
+    # WARNINGS
+    # ------------------------------
+
+    story.append(Paragraph(
+        "४. महत्त्वाच्या सूचना",
+        styles["SectionHeading"],
+    ))
+
+    warnings = result.get("warnings", [])
+
+    if not warnings:
+        warnings = [
+            "गुणतक्ते आणि नक्षत्र-वर्गीकरण प्रमाणित स्रोताशी पडताळा.",
+            "गुणांवरूनच विवाहाचा अंतिम निर्णय घेऊ नये.",
+        ]
+
+    for warning in warnings:
+        story.append(Paragraph(
+            "• " + safe_text(warning),
+            styles["ReportBody"],
+        ))
+
+    story.append(Spacer(1, 5 * mm))
+
+    story.append(Paragraph(
+        "हा अहवाल सॉफ्टवेअरने दिलेल्या गणनेवर आधारित आहे. "
+        "लग्नकुंडली, मंगळदोष आणि इतर ग्रहस्थितींचे स्वतंत्र "
+        "विश्लेषण या अहवालात समाविष्ट नाही.",
+        styles["ReportBody"],
+    ))
 
     doc.build(story)
+
     return buffer.getvalue()
 
 
 def generate_report(result: dict) -> bytes:
-    """FastAPI endpoint साठी PDF bytes परत करते."""
+    """FastAPI साठी PDF bytes परत करते."""
     return build_pdf(result)
