@@ -25,7 +25,8 @@ def calculate_chart(person: dict) -> dict:
     bodies = {}
 
     for name, pid in PLANETS:
-        xx, _ = swe.calc_ut(jd, pid, flags)
+        res = swe.calc_ut(jd, pid, flags)
+        xx = res[0]
         lon = norm360(xx[0])
         sign = sign_index(lon)
 
@@ -116,7 +117,9 @@ def calculate_chart(person: dict) -> dict:
         "lagna_lord": SIGN_LORDS[asc_sign - 1],
         "sun_rashi": bodies["सूर्य"]["rashi"]
     }
-    def calculate_match(payload: dict) -> dict:
+
+
+def calculate_match(payload: dict) -> dict:
     boy = calculate_chart(payload["boy"])
     girl = calculate_chart(payload["girl"])
 
