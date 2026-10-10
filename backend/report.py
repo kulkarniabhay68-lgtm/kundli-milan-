@@ -1,5 +1,3 @@
-तुमच्या backend/report.py फाईलसाठी संपूर्ण आणि सुधारित कोड खालीलप्रमाणे आहे. हा संपूर्ण कोड तुमच्या report.py फाईलमध्ये जसाच्या तसा टाकून द्या (Paste करा), ज्यामुळे generate_report फंक्शन उपलब्ध होईल आणि इंपोर्ट एरर पूर्णपणे दूर होईल.
-संपूर्ण backend/report.py कोड:
 from __future__ import annotations
 
 import io
@@ -177,12 +175,6 @@ def make_table(data, widths, header=True):
 # ==================================================
 
 def build_pdf(result: dict) -> bytes:
-    """
-    सध्याच्या engine.py च्या response स्वरूपातून PDF तयार करते.
-    अपेक्षित fields: kootas, total_score, max_score,
-    birth_details आणि warnings.
-    """
-
     if not isinstance(result, dict):
         raise ValueError("रिपोर्टसाठी निकाल dictionary स्वरूपात हवा.")
 
@@ -449,6 +441,4 @@ def build_pdf(result: dict) -> bytes:
 
 
 def generate_report(result: dict) -> bytes:
-    """FastAPI साठी PDF bytes परत करते."""
     return build_pdf(result)
-
