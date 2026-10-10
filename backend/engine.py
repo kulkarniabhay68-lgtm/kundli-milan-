@@ -249,11 +249,52 @@ def calculate_chart(person: dict) -> dict:
     }
 
 
+def calculate_basic_kootas(boy: dict, girl: dict) -> dict:
+    """गण, भकूट आणि नाडी कूट गणना."""
+    boy_gana = boy.get("gana")
+    girl_gana = girl.get("gana")
+    
+    if boy_gana == girl_gana:
+        gana_score = 6.0
+    elif {boy_gana, girl_gana} == {"देव", "मनुष्य"}:
+        gana_score = 5.0
+    elif {boy_gana, girl_gana} == {"मनुष्य", "राक्षस"}:
+        gana_score = 0.5
+    else:
+        gana_score = 0.0
+
+    boy_sign = boy.get("moon_sign_no", 1)
+    girl_sign = girl.get("moon_sign_no", 1)
+    diff = ((girl_sign - boy_sign) % 12) + 1
+    
+    if diff in [2, 6, 8, 12]:
+        bhakoot_score = 0.0
+    else:
+        bhakoot_score = 7.0
+
+    boy_nadi = boy.get("nadi")
+    girl_nadi = girl.get("nadi")
+    
+    if boy_nadi != girl_nadi:
+        nadi_score = 8.0
+    else:
+        nadi_score = 0.0
+
+    total = gana_score + bhakoot_score + nadi_score
+
+    return {
+        "gana": {"score": gana_score, "max": 6},
+        "bhakoot": {"score": bhakoot_score, "max": 7},
+        "nadi": {"score": nadi_score, "max": 8},
+        "total_score": total
+    }
+
+
 def calculate_match(payload: dict) -> dict:
     boy = calculate_chart(payload["boy"])
     girl = calculate_chart(payload["girl"])
     
-    # नवीन जोडलेले बेसिक कूट फंक्शन
+    # कूट गणना फंक्शन समाविष्ट केले आहे
     kootas = calculate_basic_kootas(boy, girl)
 
     return {
