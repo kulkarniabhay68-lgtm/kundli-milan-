@@ -250,7 +250,14 @@ def calculate_chart(person: dict) -> dict:
 
 
 def calculate_basic_kootas(boy: dict, girl: dict) -> dict:
-    """गण, भकूट आणि नाडी कूट गणना."""
+    """वर्ण, गण, भकूट (५/९ दोषासह) आणि नाडी कूट गणना."""
+    
+    # १. वर्ण कूट (१ गुण)
+    boy_varna = boy.get("varna", 1)
+    girl_varna = girl.get("varna", 1)
+    varna_score = 1.0 if boy_varna >= girl_varna else 0.0
+
+    # २. गण कूट (६ गुण)
     boy_gana = boy.get("gana")
     girl_gana = girl.get("gana")
     
@@ -259,19 +266,22 @@ def calculate_basic_kootas(boy: dict, girl: dict) -> dict:
     elif {boy_gana, girl_gana} == {"देव", "मनुष्य"}:
         gana_score = 5.0
     elif {boy_gana, girl_gana} == {"मनुष्य", "राक्षस"}:
-        gana_score = 0.5
+        gana_score = 0.0  # सुधारित नियम: मनुष्य आणि राक्षस गण जुळत नाहीत
     else:
         gana_score = 0.0
 
+    # ३. भकूट कूट (७ गुण) - ५/९ आणि २/१२, ६/८ दोष तपासणी
     boy_sign = boy.get("moon_sign_no", 1)
     girl_sign = girl.get("moon_sign_no", 1)
     diff = ((girl_sign - boy_sign) % 12) + 1
     
-    if diff in [2, 6, 8, 12]:
+    # २/१२, ६/८ आणि ५/९ हे अंतर दोष म्हणून तपासले जातात
+    if diff in [2, 6, 8, 12, 5, 9]:
         bhakoot_score = 0.0
     else:
         bhakoot_score = 7.0
 
+    # ४. नाडी कूट (८ गुण)
     boy_nadi = boy.get("nadi")
     girl_nadi = girl.get("nadi")
     
@@ -280,9 +290,10 @@ def calculate_basic_kootas(boy: dict, girl: dict) -> dict:
     else:
         nadi_score = 0.0
 
-    total = gana_score + bhakoot_score + nadi_score
+    total = varna_score + gana_score + bhakoot_score + nadi_score
 
     return {
+        "varna": {"score": varna_score, "max": 1},
         "gana": {"score": gana_score, "max": 6},
         "bhakoot": {"score": bhakoot_score, "max": 7},
         "nadi": {"score": nadi_score, "max": 8},
