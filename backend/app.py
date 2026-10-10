@@ -81,7 +81,7 @@ def geocode(q: str = ""):
 @app.post("/api/calculate")
 def calculate(request: MatchRequest):
     try:
-        return calculate_match(request.model_dump())
+        return calculate_match(request.boy, request.girl)
     except Exception as exc:
         raise HTTPException(
             status_code=400,
@@ -92,7 +92,7 @@ def calculate(request: MatchRequest):
 @app.post("/api/report")
 def report(request: MatchRequest):
     try:
-        result = calculate_match(request.model_dump())
+        result = calculate_match(request.boy, request.girl)
         pdf = generate_report(result)
 
         return Response(
