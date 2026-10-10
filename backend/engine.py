@@ -555,11 +555,13 @@ def _get_birth_details(data, person_name):
     )
 
     swe.set_sid_mode(swe.SIDM_LAHIRI)
-    moon_data, _ = swe.calc_ut(
+    calc_result = swe.calc_ut(
         julian_day,
         swe.MOON,
         swe.FLG_SWIEPH | swe.FLG_SIDEREAL,
     )
+
+    moon_data = calc_result[0]
 
     moon_longitude = moon_data[0] % 360
     sign_no = int(moon_longitude // 30) + 1
