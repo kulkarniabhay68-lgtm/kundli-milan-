@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -254,6 +252,9 @@ def calculate_chart(person: dict) -> dict:
 def calculate_match(payload: dict) -> dict:
     boy = calculate_chart(payload["boy"])
     girl = calculate_chart(payload["girl"])
+    
+    # नवीन जोडलेले बेसिक कूट फंक्शन
+    kootas = calculate_basic_kootas(boy, girl)
 
     return {
         "settings": {
@@ -263,6 +264,7 @@ def calculate_match(payload: dict) -> dict:
         },
         "boy": boy,
         "girl": girl,
+        "ashtakoota": kootas,
         "match": {
             "status": "calculated",
             "note": "कुंडली तयार झाली आहे."
