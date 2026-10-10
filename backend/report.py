@@ -113,28 +113,31 @@ def make_styles():
     styles.add(ParagraphStyle(
         name="ReportTitle",
         fontName=BOLD_FONT,
-        fontSize=18,
-        leading=25,
+        fontSize=20,
+        leading=26,
         alignment=TA_CENTER,
         textColor=colors.HexColor("#744210"),
         spaceAfter=8 * mm,
+        shaping=True,
     ))
 
     styles.add(ParagraphStyle(
         name="SectionHeading",
         fontName=BOLD_FONT,
-        fontSize=12,
-        leading=17,
+        fontSize=14,
+        leading=19,
         spaceBefore=5 * mm,
         spaceAfter=3 * mm,
         textColor=colors.HexColor("#744210"),
+        shaping=True,
     ))
 
     styles.add(ParagraphStyle(
         name="ReportBody",
         fontName=BASE_FONT,
-        fontSize=9,
-        leading=14,
+        fontSize=11,
+        leading=17,
+        shaping=True,
     ))
 
     return styles
@@ -150,8 +153,8 @@ def make_table(data, widths, header=True):
 
     commands = [
         ("FONTNAME", (0, 0), (-1, -1), BASE_FONT),
-        ("FONTSIZE", (0, 0), (-1, -1), 8),
-        ("LEADING", (0, 0), (-1, -1), 11),
+        ("FONTSIZE", (0, 0), (-1, -1), 10),
+        ("LEADING", (0, 0), (-1, -1), 15),
         ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#cbbd9b")),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
         ("LEFTPADDING", (0, 0), (-1, -1), 5),
