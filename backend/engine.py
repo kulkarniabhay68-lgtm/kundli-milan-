@@ -328,9 +328,8 @@ def calculate_bhakoot_koota(groom_sign_no, bride_sign_no):
 
     forward = ((bride_sign_no - groom_sign_no) % 12) + 1
     backward = ((groom_sign_no - bride_sign_no) % 12) + 1
-    pair = tuple(sorted((forward, backward))
+    pair = tuple(sorted((forward, backward)))
 
-    )
     unfavorable = pair in BHAKOOT_UNFAVORABLE_PAIRS
     score = 0 if unfavorable else 7
 
@@ -451,7 +450,42 @@ def validate_ashtakoota_tables():
 
 
 # ==================================================
-# 12. EXAMPLE — RUN THIS FILE DIRECTLY
+# 12. APP IMPORT COMPATIBILITY WRAPPER
+# ==================================================
+
+def calculate_match(groom_data, bride_data):
+    """
+    backend/app.py मधील import त्रुटी दूर करण्यासाठी 
+    आणि मुख्य अष्टकूट गुणमेलन कॉल करण्यासाठी मुख्य फंक्शन.
+    """
+    groom_v = groom_data.get("varna", Varna.KSHATRIYA)
+    if isinstance(groom_v, str):
+        try:
+            groom_v = Varna(groom_v)
+        except ValueError:
+            groom_v = Varna.KSHATRIYA
+
+    bride_v = bride_data.get("varna", Varna.VAISHYA)
+    if isinstance(bride_v, str):
+        try:
+            bride_v = Varna(bride_v)
+        except ValueError:
+            bride_v = Varna.VAISHYA
+
+    return calculate_ashtakoota_milan(
+        groom_sign_no=groom_data.get("sign_no"),
+        bride_sign_no=bride_data.get("sign_no"),
+        groom_nakshatra_no=groom_data.get("nakshatra_no"),
+        bride_nakshatra_no=bride_data.get("nakshatra_no"),
+        groom_varna=groom_v,
+        bride_varna=bride_v,
+        groom_vashya_group=groom_data.get("vashya_group"),
+        bride_vashya_group=bride_data.get("vashya_group"),
+    )
+
+
+# ==================================================
+# 13. EXAMPLE — RUN THIS FILE DIRECTLY
 # ==================================================
 
 if __name__ == "__main__":
