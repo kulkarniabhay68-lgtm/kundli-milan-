@@ -23,18 +23,18 @@ from reportlab.pdfbase.ttfonts import TTFont
 # 1. FONT SETTINGS (डिबगिंगसह)
 # ==================================================
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 FONT = os.path.join(
-    ROOT, "fonts", "NotoSansDevanagari-Regular.ttf"
+    BASE_DIR, "fonts", "NotoSansDevanagari-Regular (1).ttf"
 )
 BOLD = os.path.join(
-    ROOT, "fonts", "NotoSansDevanagari-Bold.ttf"
+    BASE_DIR, "fonts", "NotoSansDevanagari-Bold (1).ttf"
 )
 
 # डिबगिंगसाठी फॉन्टची स्थिती तपासत आहे
 print("--- FONT DEBUG INFO ---")
-print("ROOT:", ROOT)
+print("BASE_DIR:", BASE_DIR)
 print("Regular font path:", FONT)
 print("Regular font exists:", os.path.exists(FONT))
 print("Bold font path:", BOLD)
