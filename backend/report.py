@@ -1,3 +1,5 @@
+तुमच्या backend/report.py फाईलसाठी संपूर्ण आणि सुधारित कोड खालीलप्रमाणे आहे. हा संपूर्ण कोड तुमच्या report.py फाईलमध्ये जसाच्या तसा टाकून द्या (Paste करा), ज्यामुळे generate_report फंक्शन उपलब्ध होईल आणि इंपोर्ट एरर पूर्णपणे दूर होईल.
+संपूर्ण backend/report.py कोड:
 from __future__ import annotations
 
 import io
@@ -222,4 +224,231 @@ def build_pdf(result: dict) -> bytes:
     ))
     story.append(Spacer(1, 4 * mm))
 
-    
+    # ------------------------------
+    # BIRTH DETAILS
+    # ------------------------------
+
+    story.append(Paragraph("१. जन्ममाहिती", styles["SectionHeading"]))
+
+    birth_rows = [
+        ["तपशील", "वर", "वधू"],
+        [
+            "जन्मतारीख",
+            fmt_date(boy.get("birth_date")),
+            fmt_date(girl.get("birth_date")),
+        ],
+        [
+            "जन्मवेळ",
+            safe_text(boy.get("birth_time")),
+            safe_text(girl.get("birth_time")),
+        ],
+        [
+            "जन्मस्थळ",
+            safe_text(boy.get("birth_place")),
+            safe_text(girl.get("birth_place")),
+        ],
+        [
+            "टाइमझोन",
+            safe_text(boy.get("timezone")),
+            safe_text(girl.get("timezone")),
+        ],
+        [
+            "अक्षांश",
+            safe_text(boy.get("latitude")),
+            safe_text(girl.get("latitude")),
+        ],
+        [
+            "रेखांश",
+            safe_text(boy.get("longitude")),
+            safe_text(girl.get("longitude")),
+        ],
+        [
+            "चंद्रराशी",
+            sign_name(boy.get("sign_no")),
+            sign_name(girl.get("sign_no")),
+        ],
+        [
+            "नक्षत्र",
+            nakshatra_name(boy.get("nakshatra_no")),
+            nakshatra_name(girl.get("nakshatra_no")),
+        ],
+    ]
+
+    story.append(make_table(
+        birth_rows,
+        [42 * mm, 65 * mm, 65 * mm],
+    ))
+
+    # ------------------------------
+    # ASHTAKOOTA MATCHING
+    # ------------------------------
+
+    story.append(Paragraph(
+        "२. अष्टकूट गुणमेलन",
+        styles["SectionHeading"],
+    ))
+
+    score_rows = [["कूट", "वराची माहिती", "वधूची माहिती", "मिळालेले गुण", "कमाल गुण"]]
+
+    for item in kootas:
+        koota_name = safe_text(item.get("koota"))
+
+        groom_value = (
+            item.get("groom_varna")
+            or item.get("groom_group")
+            or item.get("groom_tara")
+            or item.get("groom_yoni")
+            or item.get("groom_lord")
+            or item.get("groom_gana")
+            or item.get("groom_nadi")
+            or item.get("groom_sign_no")
+            or "-"
+        )
+
+        bride_value = (
+            item.get("bride_varna")
+            or item.get("bride_group")
+            or item.get("bride_tara")
+            or item.get("bride_yoni")
+            or item.get("bride_lord")
+            or item.get("bride_gana")
+            or item.get("bride_nadi")
+            or item.get("bride_sign_no")
+            or "-"
+        )
+
+        score = item.get("score", 0)
+        max_score = item.get("max_score", 0)
+
+        score_rows.append([
+            koota_name,
+            safe_text(groom_value),
+            safe_text(bride_value),
+            f"{float(score):g}",
+            f"{float(max_score):g}",
+        ])
+
+    total_score = float(result.get("total_score", 0))
+    max_score = float(result.get("max_score", 36))
+
+    score_rows.append([
+        "एकूण",
+        "-",
+        "-",
+        f"{total_score:g}",
+        f"{max_score:g}",
+    ])
+
+    story.append(make_table(
+        score_rows,
+        [34 * mm, 39 * mm, 39 * mm, 30 * mm, 25 * mm],
+    ))
+
+    story.append(Spacer(1, 4 * mm))
+
+    story.append(Paragraph(
+        f"एकूण गुण: {total_score:g} / {max_score:g}",
+        styles["SectionHeading"],
+    ))
+
+    story.append(Paragraph(
+        (
+            "सध्याच्या गुणनियमांनुसार १८ किंवा अधिक गुण मिळाले आहेत."
+            if result.get("is_suitable_by_score_only")
+            else "सध्याच्या गुणनियमांनुसार १८ पेक्षा कमी गुण मिळाले आहेत."
+        ),
+        styles["ReportBody"],
+    ))
+
+    # ------------------------------
+    # DOSHA INDICATORS
+    # ------------------------------
+
+    story.append(Paragraph(
+        "३. गुणमेलनातील निरीक्षणे",
+        styles["SectionHeading"],
+    ))
+
+    nadi_item = next(
+        (item for item in kootas if item.get("koota") == "नाडी"),
+        None,
+    )
+
+    bhakoot_item = next(
+        (item for item in kootas if item.get("koota") == "भकूट"),
+        None,
+    )
+
+    observations = []
+
+    if nadi_item:
+        if nadi_item.get("nadi_dosha_indicated"):
+            observations.append(
+                "दोघांची नाडी समान असल्याचे गणनेत दिसते. "
+                "पारंपरिक नियम व परिहार स्वतंत्रपणे तपासणे आवश्यक आहे."
+            )
+        else:
+            observations.append(
+                "या गणनेनुसार दोघांची नाडी समान नाही."
+            )
+
+    if bhakoot_item:
+        if bhakoot_item.get("unfavorable_pair"):
+            observations.append(
+                "भकूटातील प्रतिकूल जोडी दर्शवली आहे. "
+                "परिहाराचे नियम स्वतंत्रपणे तपासणे आवश्यक आहे."
+            )
+        else:
+            observations.append(
+                "वापरलेल्या मूलभूत नियमांनुसार भकूट दोष दर्शवलेला नाही."
+            )
+
+    if not observations:
+        observations.append(
+            "दोषविषयक निरीक्षणांसाठी पुरेशी माहिती उपलब्ध नाही."
+        )
+
+    for note in observations:
+        story.append(Paragraph("• " + note, styles["ReportBody"]))
+
+    # ------------------------------
+    # WARNINGS
+    # ------------------------------
+
+    story.append(Paragraph(
+        "४. महत्त्वाच्या सूचना",
+        styles["SectionHeading"],
+    ))
+
+    warnings = result.get("warnings", [])
+
+    if not warnings:
+        warnings = [
+            "गुणतक्ते आणि नक्षत्र-वर्गीकरण प्रमाणित स्रोताशी पडताळा.",
+            "गुणांवरूनच विवाहाचा अंतिम निर्णय घेऊ नये.",
+        ]
+
+    for warning in warnings:
+        story.append(Paragraph(
+            "• " + safe_text(warning),
+            styles["ReportBody"],
+        ))
+
+    story.append(Spacer(1, 5 * mm))
+
+    story.append(Paragraph(
+        "हा अहवाल सॉफ्टवेअरने दिलेल्या गणनेवर आधारित आहे. "
+        "लग्नकुंडली, मंगळदोष आणि इतर ग्रहस्थितींचे स्वतंत्र "
+        "विश्लेषण या अहवालात समाविष्ट नाही.",
+        styles["ReportBody"],
+    ))
+
+    doc.build(story)
+
+    return buffer.getvalue()
+
+
+def generate_report(result: dict) -> bytes:
+    """FastAPI साठी PDF bytes परत करते."""
+    return build_pdf(result)
+
