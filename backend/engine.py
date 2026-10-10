@@ -1,15 +1,18 @@
+
 """
 ASHTAKOOTA KUNDALI MATCHING
-आठ कूटांचे पारंपरिक गुणमेलन
+आठ कूटांचे गुणमेलन
 
 टीप:
-गुणतक्ते आणि नक्षत्र-वर्गीकरण वापरण्यापूर्वी प्रमाणित
-ज्योतिषीय स्रोताशी पडताळा. हे विवाहाच्या यशाची हमी देत नाही.
+हे सॉफ्टवेअर ज्योतिषीय गणनेसाठी आहे.
+गुणमेलन विवाहाच्या यशाची हमी देत नाही.
+गुणतक्ते प्रमाणित ज्योतिषीय स्रोताशी पडताळा.
 """
 
 from enum import Enum
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
+
 import requests
 import swisseph as swe
 from timezonefinder import TimezoneFinder
@@ -51,11 +54,15 @@ VARNA_ORDER = {
 
 def calculate_varna_koota(groom_varna, bride_varna):
     if not isinstance(groom_varna, Varna):
-        raise ValueError("groom_varna हा Varna Enum मधील असावा.")
+        groom_varna = Varna(groom_varna)
     if not isinstance(bride_varna, Varna):
-        raise ValueError("bride_varna हा Varna Enum मधील असावा.")
+        bride_varna = Varna(bride_varna)
 
-    score = 1 if VARNA_ORDER[groom_varna] >= VARNA_ORDER[bride_varna] else 0
+    score = (
+        1
+        if VARNA_ORDER[groom_varna] >= VARNA_ORDER[bride_varna]
+        else 0
+    )
 
     return {
         "koota": "वर्ण",
@@ -71,18 +78,10 @@ def calculate_varna_koota(groom_varna, bride_varna):
 # ==================================================
 
 DEFAULT_VASHYA = {
-    1: "चतुष्पाद",
-    2: "चतुष्पाद",
-    3: "मानव",
-    4: "जलचर",
-    5: "वनचर",
-    6: "मानव",
-    7: "मानव",
-    8: "कीटक",
-    9: "मानव",
-    10: "चतुष्पाद",
-    11: "मानव",
-    12: "जलचर",
+    1: "चतुष्पाद", 2: "चतुष्पाद", 3: "मानव",
+    4: "जलचर", 5: "वनचर", 6: "मानव",
+    7: "मानव", 8: "कीटक", 9: "मानव",
+    10: "चतुष्पाद", 11: "मानव", 12: "जलचर",
 }
 
 VASHYA_SCORE_TABLE = {
@@ -110,23 +109,17 @@ VASHYA_SCORE_TABLE = {
 
 
 def calculate_vashya_koota(
-    groom_sign_no,
-    bride_sign_no,
-    groom_group=None,
-    bride_group=None,
+    groom_sign_no, bride_sign_no,
+    groom_group=None, bride_group=None
 ):
     validate_number(groom_sign_no, VALID_SIGNS, "वराची राशी")
     validate_number(bride_sign_no, VALID_SIGNS, "वधूची राशी")
 
-    if groom_group is None:
-        groom_group = DEFAULT_VASHYA[groom_sign_no]
-
-    if bride_group is None:
-        bride_group = DEFAULT_VASHYA[bride_sign_no]
+    groom_group = groom_group or DEFAULT_VASHYA[groom_sign_no]
+    bride_group = bride_group or DEFAULT_VASHYA[bride_sign_no]
 
     if groom_group not in VASHYA_SCORE_TABLE:
         raise ValueError("वराचा वश्य गट अवैध आहे.")
-
     if bride_group not in VASHYA_SCORE_TABLE:
         raise ValueError("वधूचा वश्य गट अवैध आहे.")
 
@@ -154,7 +147,6 @@ def calculate_tara_number(from_nakshatra, to_nakshatra):
 
     count = ((to_nakshatra - from_nakshatra) % 27) + 1
     remainder = count % 9
-
     return remainder if remainder else 9
 
 
@@ -202,21 +194,33 @@ YONI_BY_NAKSHATRA = {
     25: "सिंह", 26: "गाय", 27: "गज",
 }
 
+_YONI_NAMES = [
+    "अश्व", "गज", "मेष", "सर्प", "श्वान", "मार्जार",
+    "मूषक", "गाय", "महिषी", "व्याघ्र", "हरिण",
+    "वानर", "मुंगूस", "सिंह",
+]
+
+# जुन्या तक्त्यातील गुण जतन केले आहेत.
+_YONI_ROWS = [
+    [4,2,2,3,2,2,2,2,0,2,3,3,2,2],
+    [2,4,3,3,2,2,2,2,3,2,2,3,2,0],
+    [2,3,4,2,2,2,2,3,3,2,2,0,2,2],
+    [3,3,2,4,2,2,3,2,2,2,2,2,0,3],
+    [2,2,2,2,4,2,2,2,2,2,0,2,2,2],
+    [2,2,2,3,2,4,0,2,2,2,2,2,2,2],
+    [2,2,2,3,2,0,4,2,2,2,2,2,2,2],
+    [2,2,3,2,2,2,2,4,2,0,2,2,2,2],
+    [0,3,3,2,2,2,2,2,4,2,2,2,2,2],
+    [2,2,2,2,2,2,2,0,2,4,2,2,2,2],
+    [3,2,2,2,0,2,2,2,2,2,4,3,2,2],
+    [3,3,0,2,2,2,2,2,2,2,3,4,2,2],
+    [2,2,2,0,2,2,2,2,2,2,2,2,4,2],
+    [2,0,2,3,2,2,2,2,2,2,2,2,2,4],
+]
+
 YONI_SCORE_TABLE = {
-    "अश्व": {"अश्व":4,"गज":2,"मेष":2,"सर्प":3,"श्वान":2,"मार्जार":2,"मूषक":2,"गाय":2,"महिषी":0,"व्याघ्र":2,"हरिण":3,"वानर":3,"मुंगूस":2,"सिंह":2},
-    "गज": {"अश्व":2,"गज":4,"मेष":3,"सर्प":3,"श्वान":2,"मार्जार":2,"मूषक":2,"गाय":2,"महिषी":3,"व्याघ्र":2,"हरिण":2,"वानर":3,"मुंगूस":2,"सिंह":0},
-    "मेष": {"अश्व":2,"गज":3,"मेष":4,"सर्प":2,"श्वान":2,"मार्जार":2,"मूषक":2,"गाय":3,"महिषी":3,"व्याघ्र":2,"हरिण":2,"वानर":0,"मुंगूस":2,"सिंह":2},
-    "सर्प": {"अश्व":3,"गज":3,"मेष":2,"सर्प":4,"श्वान":2,"मार्जार":2,"मूषक":2,"गाय":2,"महिषी":2,"व्याघ्र":2,"हरिण":2,"वानर":2,"मुंगूस":0,"सिंह":3},
-    "श्वान": {"अश्व":2,"गज":2,"मेष":2,"सर्प":2,"श्वान":4,"मार्जार":2,"मूषक":2,"गाय":2,"महिषी":2,"व्याघ्र":2,"हरिण":0,"वानर":2,"मुंगूस":2,"सिंह":2},
-    "मार्जार": {"अश्व":2,"गज":2,"मेष":2,"सर्प":3,"श्वान":2,"मार्जार":4,"मूषक":0,"गाय":2,"महिषी":2,"व्याघ्र":2,"हरिण":2,"वानर":2,"मुंगूस":2,"सिंह":2},
-    "मूषक": {"अश्व":2,"गज":2,"मेष":2,"सर्प":3,"श्वान":2,"मार्जार":0,"मूषक":4,"गाय":2,"महिषी":2,"व्याघ्र":2,"हरिण":2,"वानर":2,"मुंगूस":2,"सिंह":2},
-    "गाय": {"अश्व":2,"गज":2,"मेष":3,"सर्प":2,"श्वान":2,"मार्जार":2,"मूषक":2,"गाय":4,"महिषी":2,"व्याघ्र":0,"हरिण":2,"वानर":2,"मुंगूस":2,"सिंह":2},
-    "महिषी": {"अश्व":0,"गज":3,"मेष":3,"सर्प":2,"श्वान":2,"मार्जार":2,"मूषक":2,"गाय":2,"महिषी":4,"व्याघ्र":2,"हरिण":2,"वानर":2,"मुंगूस":2,"सिंह":2},
-    "व्याघ्र": {"अश्व":2,"गज":2,"मेष":2,"सर्प":2,"श्वान":2,"मार्जार":2,"मूषक":2,"गाय":0,"महिषी":2,"व्याघ्र":4,"हरिण":2,"वानर":2,"मुंगूस":2,"सिंह":2},
-    "हरिण": {"अश्व":3,"गज":2,"मेष":2,"सर्प":2,"श्वान":0,"मार्जार":2,"मूषक":2,"गाय":2,"महिषी":2,"व्याघ्र":2,"हरिण":4,"वानर":3,"मुंगूस":2,"सिंह":2},
-    "वानर": {"अश्व":3,"गज":3,"मेष":0,"सर्प":2,"श्वान":2,"मार्जार":2,"मूषक":2,"गाय":2,"महिषी":2,"व्याघ्र":2,"हरिण":3,"वानर":4,"मुंगूस":2,"सिंह":2},
-    "मुंगूस": {"अश्व":2,"गज":2,"मेष":2,"सर्प":0,"श्वान":2,"मार्जार":2,"मूषक":2,"गाय":2,"महिषी":2,"व्याघ्र":2,"हरिण":2,"वानर":2,"मुंगूस":4,"सिंह":2},
-    "सिंह": {"अश्व":2,"गज":0,"मेष":2,"सर्प":3,"श्वान":2,"मार्जार":2,"मूषक":2,"गाय":2,"महिषी":2,"व्याघ्र":2,"हरिण":2,"वानर":2,"मुंगूस":2,"सिंह":4},
+    name: dict(zip(_YONI_NAMES, row))
+    for name, row in zip(_YONI_NAMES, _YONI_ROWS)
 }
 
 
@@ -305,13 +309,12 @@ def calculate_gana_koota(groom_nakshatra_no, bride_nakshatra_no):
 
     groom_gana = GANA_BY_NAKSHATRA[groom_nakshatra_no]
     bride_gana = GANA_BY_NAKSHATRA[bride_nakshatra_no]
-    score = GANA_SCORE_TABLE[bride_gana][groom_gana]
 
     return {
         "koota": "गण",
         "groom_gana": groom_gana,
         "bride_gana": bride_gana,
-        "score": score,
+        "score": GANA_SCORE_TABLE[bride_gana][groom_gana],
         "max_score": 6,
     }
 
@@ -321,9 +324,7 @@ def calculate_gana_koota(groom_nakshatra_no, bride_nakshatra_no):
 # ==================================================
 
 BHAKOOT_UNFAVORABLE_PAIRS = {
-    (2, 12),
-    (5, 9),
-    (6, 8),
+    (2, 12), (5, 9), (6, 8),
 }
 
 
@@ -333,10 +334,9 @@ def calculate_bhakoot_koota(groom_sign_no, bride_sign_no):
 
     forward = ((bride_sign_no - groom_sign_no) % 12) + 1
     backward = ((groom_sign_no - bride_sign_no) % 12) + 1
-    pair = tuple(sorted((forward, backward)))
+    pair = tuple(sorted((forward, backward))
 
     unfavorable = pair in BHAKOOT_UNFAVORABLE_PAIRS
-    score = 0 if unfavorable else 7
 
     return {
         "koota": "भकूट",
@@ -344,9 +344,12 @@ def calculate_bhakoot_koota(groom_sign_no, bride_sign_no):
         "bride_sign_no": bride_sign_no,
         "distance_pair": pair,
         "unfavorable_pair": unfavorable,
-        "score": score,
+        "score": 0 if unfavorable else 7,
         "max_score": 7,
-        "parihara_status": "तपासणी आवश्यक" if unfavorable else "मूलभूत नियमात दोष दिसत नाही",
+        "parihara_status": (
+            "तपासणी आवश्यक" if unfavorable
+            else "मूलभूत नियमात दोष दिसत नाही"
+        ),
     }
 
 
@@ -379,7 +382,10 @@ def calculate_nadi_koota(groom_nakshatra_no, bride_nakshatra_no):
         "score": 0 if same_nadi else 8,
         "max_score": 8,
         "nadi_dosha_indicated": same_nadi,
-        "parihara_status": "तपासणी आवश्यक" if same_nadi else "मूलभूत नियमात समान नाडी नाही",
+        "parihara_status": (
+            "तपासणी आवश्यक" if same_nadi
+            else "मूलभूत नियमात समान नाडी नाही"
+        ),
     }
 
 
@@ -449,75 +455,179 @@ def validate_ashtakoota_tables():
     for yoni in YONI_SCORE_TABLE:
         assert len(YONI_SCORE_TABLE[yoni]) == 14
 
-    assert sum([1, 2, 3, 4, 5, 6, 7, 8]) == 36
-
     return "तक्त्यांची मूलभूत रचना तपासली."
 
 
 # ==================================================
-# 12. APP IMPORT COMPATIBILITY WRAPPER
+# 12. BIRTH DETAILS AND APP COMPATIBILITY
 # ==================================================
 
+def _get_birth_details(data, person_name):
+    date_text = data.get("date") or data.get("birth_date")
+    time_text = data.get("time") or data.get("birth_time")
+    place = (
+        data.get("place")
+        or data.get("birth_place")
+        or data.get("location")
+    )
+
+    if not date_text or not time_text or not place:
+        raise ValueError(
+            f"{person_name}: date, time आणि place आवश्यक आहेत."
+        )
+
+    try:
+        birth_local = datetime.fromisoformat(
+            f"{date_text}T{time_text}"
+        )
+    except (ValueError, TypeError):
+        raise ValueError(
+            f"{person_name}: तारीख YYYY-MM-DD आणि वेळ HH:MM द्या."
+        )
+
+    latitude = data.get("latitude", data.get("lat"))
+    longitude = data.get(
+        "longitude", data.get("lng", data.get("lon"))
+    )
+
+    if latitude is None or longitude is None:
+        try:
+            response = requests.get(
+                "https://nominatim.openstreetmap.org/search",
+                params={"q": place, "format": "json", "limit": 1},
+                headers={"User-Agent": "KundliMilanApp/1.0"},
+                timeout=15,
+            )
+            response.raise_for_status()
+            locations = response.json()
+        except requests.RequestException as exc:
+            raise ValueError(
+                f"{person_name}: जन्मस्थळ शोधता आले नाही. "
+                "स्थळ तपासा किंवा coordinates द्या."
+            ) from exc
+
+        if not locations:
+            raise ValueError(
+                f"{person_name}: '{place}' हे स्थळ सापडले नाही."
+            )
+
+        latitude = float(locations[0]["lat"])
+        longitude = float(locations[0]["lon"])
+
+    latitude = float(latitude)
+    longitude = float(longitude)
+
+    if not (-90 <= latitude <= 90 and -180 <= longitude <= 180):
+        raise ValueError(f"{person_name}: coordinates अवैध आहेत.")
+
+    timezone_name = data.get("timezone")
+
+    if not timezone_name:
+        timezone_name = TimezoneFinder().timezone_at(
+            lat=latitude, lng=longitude
+        )
+
+    if not timezone_name:
+        raise ValueError(f"{person_name}: टाइमझोन सापडला नाही.")
+
+    try:
+        local_tz = ZoneInfo(timezone_name)
+    except Exception as exc:
+        raise ValueError(
+            f"{person_name}: टाइमझोन अवैध आहे: {timezone_name}"
+        ) from exc
+
+    # ISO स्वरूपात timezone दिला असल्यास तो आधीच असू शकतो.
+    if birth_local.tzinfo is None:
+        birth_local = birth_local.replace(tzinfo=local_tz)
+
+    birth_utc = birth_local.astimezone(timezone.utc)
+
+    hour_utc = (
+        birth_utc.hour
+        + birth_utc.minute / 60
+        + birth_utc.second / 3600
+        + birth_utc.microsecond / 3600000000
+    )
+
+    julian_day = swe.julday(
+        birth_utc.year,
+        birth_utc.month,
+        birth_utc.day,
+        hour_utc,
+    )
+
+    swe.set_sid_mode(swe.SIDM_LAHIRI)
+    moon_data, _ = swe.calc_ut(
+        julian_day,
+        swe.MOON,
+        swe.FLG_SWIEPH | swe.FLG_SIDEREAL,
+    )
+
+    moon_longitude = moon_data[0] % 360
+    sign_no = int(moon_longitude // 30) + 1
+    nakshatra_no = min(
+        int(moon_longitude / (360 / 27)) + 1, 27
+    )
+
+    # तात्पुरते राशी-आधारित वर्गीकरण.
+    # प्रमाणित वर्ण नियमांसाठी हा भाग पडताळा.
+    sign_varna = {
+        1: Varna.KSHATRIYA,
+        2: Varna.VAISHYA,
+        3: Varna.SHUDRA,
+        4: Varna.VIPRA,
+        5: Varna.KSHATRIYA,
+        6: Varna.VAISHYA,
+        7: Varna.SHUDRA,
+        8: Varna.VIPRA,
+        9: Varna.KSHATRIYA,
+        10: Varna.VAISHYA,
+        11: Varna.SHUDRA,
+        12: Varna.VIPRA,
+    }
+
+    return {
+        "sign_no": sign_no,
+        "nakshatra_no": nakshatra_no,
+        "varna": sign_varna[sign_no],
+        "birth_date": date_text,
+        "birth_time": time_text,
+        "birth_place": place,
+        "timezone": timezone_name,
+        "latitude": latitude,
+        "longitude": longitude,
+        "moon_longitude": round(moon_longitude, 6),
+    }
+
+
 def calculate_match(groom_data, bride_data):
-    """
-    backend/app.py मधील import त्रुटी दूर करण्यासाठी 
-    आणि मुख्य अष्टकूट गुणमेलन कॉल करण्यासाठी मुख्य फंक्शन.
-    """
-    groom_v = groom_data.get("varna", Varna.KSHATRIYA)
-    if isinstance(groom_v, str):
-        try:
-            groom_v = Varna(groom_v)
-        except ValueError:
-            groom_v = Varna.KSHATRIYA
+    groom = _get_birth_details(groom_data, "वर")
+    bride = _get_birth_details(bride_data, "वधू")
 
-    bride_v = bride_data.get("varna", Varna.VAISHYA)
-    if isinstance(bride_v, str):
-        try:
-            bride_v = Varna(bride_v)
-        except ValueError:
-            bride_v = Varna.VAISHYA
-
-    return calculate_ashtakoota_milan(
-        groom_sign_no=groom_data.get("sign_no"),
-        bride_sign_no=bride_data.get("sign_no"),
-        groom_nakshatra_no=groom_data.get("nakshatra_no"),
-        bride_nakshatra_no=bride_data.get("nakshatra_no"),
-        groom_varna=groom_v,
-        bride_varna=bride_v,
+    result = calculate_ashtakoota_milan(
+        groom_sign_no=groom["sign_no"],
+        bride_sign_no=bride["sign_no"],
+        groom_nakshatra_no=groom["nakshatra_no"],
+        bride_nakshatra_no=bride["nakshatra_no"],
+        groom_varna=groom["varna"],
+        bride_varna=bride["varna"],
         groom_vashya_group=groom_data.get("vashya_group"),
         bride_vashya_group=bride_data.get("vashya_group"),
     )
 
+    result["birth_details"] = {
+        "groom": groom,
+        "bride": bride,
+    }
+
+    return result
+
 
 # ==================================================
-# 13. EXAMPLE — RUN THIS FILE DIRECTLY
+# 13. RUN DIRECTLY
 # ==================================================
 
 if __name__ == "__main__":
     print(validate_ashtakoota_tables())
-
-    result = calculate_ashtakoota_milan(
-        groom_sign_no=1,
-        bride_sign_no=7,
-        groom_nakshatra_no=1,
-        bride_nakshatra_no=15,
-        groom_varna=Varna.KSHATRIYA,
-        bride_varna=Varna.VAISHYA,
-    )
-
-    print("\nअष्टकूट गुणमेलन")
-    print("--------------------")
-
-    for item in result["kootas"]:
-        print(
-            f'{item["koota"]}: '
-            f'{item["score"]}/{item["max_score"]}'
-        )
-
-    print("--------------------")
-    print(f'एकूण गुण: {result["total_score"]}/36')
-    print(f'१८ किंवा अधिक गुण: {result["is_suitable_by_score_only"]}')
-
-    print("\nसूचना:")
-    for warning in result["warnings"]:
-        print("-", warning)
+    print("Kundli Milan engine तयार आहे.")
