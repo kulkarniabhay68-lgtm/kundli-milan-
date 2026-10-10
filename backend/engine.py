@@ -1,4 +1,3 @@
-
 """
 ASHTAKOOTA KUNDALI MATCHING
 आठ कूटांचे गुणमेलन
@@ -200,7 +199,6 @@ _YONI_NAMES = [
     "वानर", "मुंगूस", "सिंह",
 ]
 
-# जुन्या तक्त्यातील गुण जतन केले आहेत.
 _YONI_ROWS = [
     [4,2,2,3,2,2,2,2,0,2,3,3,2,2],
     [2,4,3,3,2,2,2,2,3,2,2,3,2,0],
@@ -334,7 +332,7 @@ def calculate_bhakoot_koota(groom_sign_no, bride_sign_no):
 
     forward = ((bride_sign_no - groom_sign_no) % 12) + 1
     backward = ((groom_sign_no - bride_sign_no) % 12) + 1
-    pair = tuple(sorted((forward, backward))
+    pair = tuple(sorted((forward, backward)))
 
     unfavorable = pair in BHAKOOT_UNFAVORABLE_PAIRS
 
@@ -537,7 +535,6 @@ def _get_birth_details(data, person_name):
             f"{person_name}: टाइमझोन अवैध आहे: {timezone_name}"
         ) from exc
 
-    # ISO स्वरूपात timezone दिला असल्यास तो आधीच असू शकतो.
     if birth_local.tzinfo is None:
         birth_local = birth_local.replace(tzinfo=local_tz)
 
@@ -570,8 +567,6 @@ def _get_birth_details(data, person_name):
         int(moon_longitude / (360 / 27)) + 1, 27
     )
 
-    # तात्पुरते राशी-आधारित वर्गीकरण.
-    # प्रमाणित वर्ण नियमांसाठी हा भाग पडताळा.
     sign_varna = {
         1: Varna.KSHATRIYA,
         2: Varna.VAISHYA,
