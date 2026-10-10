@@ -5,4 +5,5 @@ reportlab>=4.2
 pysweph>=2.10.3.6
 requests>=2.32
 pyswisseph
-timezonefinder
+तिमेझॉनफीडर
+uharfbuzz
