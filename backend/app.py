@@ -24,6 +24,14 @@ class MatchRequest(BaseModel):
     girl: dict[str, Any]
 
 
+@app.get("/")
+def home():
+    return {
+        "message": "Kundli Milan API is running",
+        "status": "success"
+    }
+
+
 @app.get("/api/health")
 def health():
     return {
