@@ -154,3 +154,72 @@ def make_table(data, widths, header=True):
         ("LEADING", (0, 0), (-1, -1), 11),
         ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#cbbd9b")),
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 5),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 5),
+        ("TOPPADDING", (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 5),
+    ]
+
+    if header:
+        commands.extend([
+            ("FONTNAME", (0, 0), (-1, 0), BOLD_FONT),
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#f6e8bd")),
+        ])
+
+    table.setStyle(TableStyle(commands))
+    return table
+
+
+# ==================================================
+# 3. PDF GENERATOR
+# ==================================================
+
+def build_pdf(result: dict) -> bytes:
+    """
+    सध्याच्या engine.py च्या response स्वरूपातून PDF तयार करते.
+    अपेक्षित fields: kootas, total_score, max_score,
+    birth_details आणि warnings.
+    """
+
+    if not isinstance(result, dict):
+        raise ValueError("रिपोर्टसाठी निकाल dictionary स्वरूपात हवा.")
+
+    birth_details = result.get("birth_details", {})
+    boy = birth_details.get("groom", {})
+    girl = birth_details.get("bride", {})
+    kootas = result.get("kootas", [])
+
+    if not kootas:
+        raise ValueError(
+            "निकालात kootas उपलब्ध नाहीत. आधी गुणमेलनाची गणना करा."
+        )
+
+    buffer = io.BytesIO()
+
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=A4,
+        rightMargin=14 * mm,
+        leftMargin=14 * mm,
+        topMargin=14 * mm,
+        bottomMargin=14 * mm,
+        title="कुंडली मिलन अहवाल",
+        author="Kundli Milan",
+    )
+
+    styles = make_styles()
+    story = []
+
+    # ------------------------------
+    # TITLE
+    # ------------------------------
+
+    story.append(Paragraph("कुंडली मिलन अहवाल", styles["ReportTitle"]))
+
+    story.append(Paragraph(
+        "जन्ममाहिती आणि अष्टकूट गुणमेलन",
+        styles["ReportBody"],
+    ))
+    story.append(Spacer(1, 4 * mm))
+
+    
